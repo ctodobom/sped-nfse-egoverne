@@ -93,7 +93,7 @@ class Tools extends BaseTools
         $content .= "<ConsultarLoteRps xmlns=\"{$this->wsobj->msgns}\">";
         $content .=     "<ConsultarLoteRpsEnvio>";
         $content .=         $this->prestador;
-        $content .=         "<Protocolo>$protocolo</Protocolo>";
+        $content .=         "<Protocolo>{$protocolo}</Protocolo>";
         $content .=     "</ConsultarLoteRpsEnvio>";
         $content .= "</ConsultarLoteRps>";
         
@@ -127,10 +127,10 @@ class Tools extends BaseTools
         $content .= "<ConsultarNfse xmlns=\"{$this->wsobj->msgns}\">";
         $content .=     "<ConsultarNfseEnvio>";
         $content .=         $this->prestador;
-        $content .=         "<NumeroNfse>$numeroNFSe<NumeroNfse>";
+        $content .=         "<NumeroNfse>{$numeroNFSe}<NumeroNfse>";
         $content .=         "<PeriodoEmissao>";
-        $content .=             "<DataInicial>$dini</DataInicial>";
-        $content .=             "<DataFinal>$dfim</DataFinal>";
+        $content .=             "<DataInicial>{$dini}</DataInicial>";
+        $content .=             "<DataFinal>{$dfim}</DataFinal>";
         $content .=         "</PeriodoEmissao>";
         
         if ($tomadorCnpj !== null || $tomadorCpf !== null) {
