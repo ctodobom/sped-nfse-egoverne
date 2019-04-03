@@ -395,25 +395,23 @@ class Factory
         $pre = $this->std->prestador;
         
         $node = $this->dom->createElement('Prestador');
-        $cpfcnpj = $this->dom->createElement('CpfCnpj');
         
         if (isset($pre->cnpj)) {
             $this->dom->addChild(
-                $cpfcnpj,
+                $node,
                 "Cnpj",
                 isset($pre->cnpj) ? $pre->cnpj : null,
                 false
             );
         } else {
             $this->dom->addChild(
-                $cpfcnpj,
+                $node,
                 "Cpf",
                 isset($pre->cpf) ? $pre->cpf : null,
                 false
             );
         }
         
-        $node->appendChild($cpfcnpj);
         $this->dom->addChild(
             $node,
             "InscricaoMunicipal",
