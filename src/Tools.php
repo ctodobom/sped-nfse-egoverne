@@ -133,14 +133,16 @@ class Tools extends BaseTools
         $content .=             "<DataFinal>$dfim</DataFinal>";
         $content .=         "</PeriodoEmissao>";
         
-        if ($tomadorCnpj || $tomadorCpf) {
+        if ($tomadorCnpj !== null || $tomadorCpf !== null) {
             if (isset($tomadorCnpj)) {
-                $tomadorDocumento = "<Cnpj>$tomadorCnpj</Cnpj>";
+                $tomadorDocumento = "<Cnpj>{$tomadorCnpj}</Cnpj>";
             } else {
-                $tomadorDocumento = "<Cpf>$tomadorCpf</Cpf>";
+                $tomadorDocumento = "<Cpf>{$tomadorCpf}</Cpf>";
             }
+            
+            $tomadorInscMun = '';
             if (isset($tomadorIM)) {
-                $tomadorInscMun = "<InscricaoMunicipal>$tomadorIM</InscricaoMunicipal>";
+                $tomadorInscMun = "<InscricaoMunicipal>{$tomadorIM}</InscricaoMunicipal>";
             }
             
             $content .= "<Tomador>";
@@ -195,7 +197,7 @@ class Tools extends BaseTools
      * @return string
      * @throws \Exception
      */
-    public function recepcionarLoteRps($arps, $lote)
+    public function recepcionarLoteRps($arps, $lote) 
     {
         $content = $listaRpsContent = '';
         $operation = 'RecepcionarLoteRps';
