@@ -188,7 +188,7 @@ class Tools extends BaseTools
             $xmlsigned = $this->sign($xml, 'InfRps', '');
             $content .= $xmlsigned;
         }
-        $contentmsg = "<EnviarLoteRpsEnvio>"
+        $contentmsg = "<EnviarLoteRpsEnvio xmlns=\"{$this->wsobj->msgns}/\">"
             . "<LoteRps>"
             . "<NumeroLote>$lote</NumeroLote>"
             . "<Cnpj>" . $this->config->cnpj . "</Cnpj>"
