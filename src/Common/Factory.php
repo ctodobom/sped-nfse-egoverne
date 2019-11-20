@@ -42,13 +42,13 @@ class Factory
     public function __construct(stdClass $std)
     {
         $this->std = $std;
-        
+
         $this->dom = new Dom('1.0', 'UTF-8');
         $this->dom->preserveWhiteSpace = false;
         $this->dom->formatOutput = false;
         $this->rps = $this->dom->createElement('Rps');
     }
-    
+
     /**
      * Builder, converts sdtClass Rps in XML Rps
      * NOTE: without Prestador Tag
@@ -57,52 +57,52 @@ class Factory
     public function render()
     {
         $infRps = $this->dom->createElement('InfRps');
-        
+
         if ($this->std->servico->codigomunicipio != 4106902) {
-           $att = $this->dom->createAttribute('Id');
-           $att->value = 'ID' . $this->std->identificacaorps->numero;
-           $infRps->appendChild($att);
+            $att = $this->dom->createAttribute('Id');
+            $att->value = 'ID' . $this->std->identificacaorps->numero;
+            $infRps->appendChild($att);
         }
-        
+
         $this->addIdentificacao($infRps);
-        
+
         if (floatval($this->std->version) <= 2.01) {
-           $this->dom->addChild(
-               $infRps,
-               "DataEmissao",
-               $this->std->dataemissao,
-               true
-           );
-           $this->dom->addChild(
-               $infRps,
-               "NaturezaOperacao",
-               $this->std->naturezaoperacao,
-               true
-           );
-           $this->dom->addChild(
-               $infRps,
-               "RegimeEspecialTributacao",
-               $this->std->regimeespecialtributacao,
-               true
-           );
-           $this->dom->addChild(
-               $infRps,
-               "OptanteSimplesNacional",
-               $this->std->optantesimplesnacional,
-               true
-           );
-           $this->dom->addChild(
-               $infRps,
-               "IncentivadorCultural",
-               $this->std->incentivadorcultural,
-               false
-           );
-           $this->dom->addChild(
-               $infRps,
-               "Status",
-               $this->std->status,
-               true
-           );
+            $this->dom->addChild(
+                $infRps,
+                "DataEmissao",
+                $this->std->dataemissao,
+                true
+            );
+            $this->dom->addChild(
+                $infRps,
+                "NaturezaOperacao",
+                $this->std->naturezaoperacao,
+                true
+            );
+            $this->dom->addChild(
+                $infRps,
+                "RegimeEspecialTributacao",
+                $this->std->regimeespecialtributacao,
+                true
+            );
+            $this->dom->addChild(
+                $infRps,
+                "OptanteSimplesNacional",
+                $this->std->optantesimplesnacional,
+                true
+            );
+            $this->dom->addChild(
+                $infRps,
+                "IncentivadorCultural",
+                $this->std->incentivadorcultural,
+                false
+            );
+            $this->dom->addChild(
+                $infRps,
+                "Status",
+                $this->std->status,
+                true
+            );
         } else {
             $this->dom->addChild(
                 $infRps,
@@ -113,45 +113,46 @@ class Factory
                 true
             );
         }
-        
+
         $this->addServico($infRps);
         $this->addPrestador($infRps);
         $this->addTomador($infRps);
         $this->addIntermediario($infRps);
         $this->addConstrucao($infRps);
-        
+
         if (floatval($this->std->version) > 2.01) {
-           $this->dom->addChild(
-               $infRps,
-               "RegimeEspecialTributacao",
-               $this->std->regimeespecialtributacao,
-               true
-           );
-           $this->dom->addChild(
-               $infRps,
-               "OptanteSimplesNacional",
-               $this->std->optantesimplesnacional,
-               true
-           );
-           $this->dom->addChild(
-               $infRps,
-               "IncentivoFiscal",
-               $this->std->incentivofiscal,
-               true
-           );
+            $this->dom->addChild(
+                $infRps,
+                "RegimeEspecialTributacao",
+                $this->std->regimeespecialtributacao,
+                true
+            );
+            $this->dom->addChild(
+                $infRps,
+                "OptanteSimplesNacional",
+                $this->std->optantesimplesnacional,
+                true
+            );
+            $this->dom->addChild(
+                $infRps,
+                "IncentivoFiscal",
+                $this->std->incentivofiscal,
+                true
+            );
         }
 
         $this->rps->appendChild($infRps);
         $this->dom->appendChild($this->rps);
         return $this->dom->saveXML();
     }
-    
+
     /**
      * Includes Identificacao TAG in parent NODE
      * @param DOMNode $parent
      */
     protected function addIdentificacao(&$parent)
     {
+        $rps = null;
         if (floatval($this->std->version) > 2.01) {
             $rps = $this->dom->createElement('Rps');
         }
@@ -177,7 +178,7 @@ class Factory
             true
         );
 
-        if (floatval($this->std->version) > 2.01) {
+        if ($rps != null) {
             $rps->appendChild($node);
             $this->dom->addChild(
                 $rps,
@@ -195,9 +196,8 @@ class Factory
         } else {
             $parent->appendChild($node);
         }
-
     }
-    
+
     /**
      * Includes Servico TAG in parent NODE
      * @param DOMNode $parent
@@ -262,7 +262,7 @@ class Factory
                 : null,
             false
         );
-        
+
         if (floatval($this->std->version) <= 2.01) {
             $this->dom->addChild(
                 $valnode,
@@ -271,7 +271,7 @@ class Factory
                 false
             );
         }
-        
+
         $this->dom->addChild(
             $valnode,
             "ValorIss",
@@ -335,7 +335,7 @@ class Factory
             false
         );
         $node->appendChild($valnode);
-        
+
         if (floatval($this->std->version) > 2.01) {
             $this->dom->addChild(
                 $node,
@@ -357,7 +357,7 @@ class Factory
             isset($serv->codigotributacaomunicipio)
                 ? $serv->codigotributacaomunicipio
                 : null,
-            true
+            false
         );
         $this->dom->addChild(
             $node,
@@ -377,12 +377,12 @@ class Factory
             isset($serv->exigibilidadeiss)
                 ? $serv->exigibilidadeiss
                 : null,
-            true
+            false
         );
 
         $parent->appendChild($node);
     }
-    
+
     /**
      * Includes Prestador TAG in parent NODE
      * @param DOMNode $parent
@@ -393,9 +393,7 @@ class Factory
             return;
         }
         $pre = $this->std->prestador;
-        
         $node = $this->dom->createElement('Prestador');
-        
         if (isset($pre->cnpj)) {
             $this->dom->addChild(
                 $node,
@@ -411,17 +409,15 @@ class Factory
                 false
             );
         }
-        
         $this->dom->addChild(
             $node,
             "InscricaoMunicipal",
             isset($pre->inscricaomunicipal) ? $pre->inscricaomunicipal : null,
             false
         );
-        
         $parent->appendChild($node);
     }
-    
+
     /**
      * Includes Tomador TAG in parent NODE
      * @param DOMNode $parent
@@ -433,7 +429,6 @@ class Factory
         }
         $tom = $this->std->tomador;
         $end = $this->std->tomador->endereco;
-        
         $node = $this->dom->createElement('Tomador');
         $ide = $this->dom->createElement('IdentificacaoTomador');
         $cpfcnpj = $this->dom->createElement('CpfCnpj');
@@ -453,12 +448,11 @@ class Factory
             );
         }
         $ide->appendChild($cpfcnpj);
-        
         $this->dom->addChild(
             $ide,
             "InscricaoMunicipal",
             isset($tom->inscricaomunicipal) ? $tom->inscricaomunicipal : null,
-            true
+            false
         );
         $node->appendChild($ide);
         $this->dom->addChild(
@@ -517,7 +511,6 @@ class Factory
             true
         );
         $node->appendChild($endereco);
-
         if (isset($tom->contato)) {
             $con = $this->std->tomador->contato;
             $contato = $this->dom->createElement('Contato');
@@ -535,10 +528,9 @@ class Factory
             );
             $node->appendChild($contato);
         }
-
         $parent->appendChild($node);
     }
-    
+
     /**
      * Includes Intermediario TAG in parent NODE
      * @param DOMNode $parent
@@ -581,7 +573,7 @@ class Factory
         );
         $parent->appendChild($node);
     }
-    
+
     /**
      * Includes Construcao TAG in parent NODE
      * @param DOMNode $parent
