@@ -90,12 +90,10 @@ class Tools extends BaseTools
         $content = '';
         $operation = 'ConsultarLoteRps';
 
-        $content .= "<ConsultarLoteRps xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<ConsultarLoteRpsEnvio>";
-        $content .=         $this->prestador;
-        $content .=         "<Protocolo>{$protocolo}</Protocolo>";
-        $content .=     "</ConsultarLoteRpsEnvio>";
-        $content .= "</ConsultarLoteRps>";
+        $content .= "<ConsultarLoteRpsEnvio xmlns=\"{$this->wsobj->msgns}\">";
+        $content .=     $this->prestador;
+        $content .=     "<Protocolo>{$protocolo}</Protocolo>";
+        $content .= "</ConsultarLoteRpsEnvio>";
 
         Validator::isValid($content, $this->xsdpath);
 
