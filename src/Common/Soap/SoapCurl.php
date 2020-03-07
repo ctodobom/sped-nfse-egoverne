@@ -113,8 +113,7 @@ class SoapCurl extends SoapBase implements SoapInterface
                 . " || requestBody: $this->requestBody"
             );
         }
-        return $this->responseBody . ' || ' . $this->requestBody;
-        //return $this->responseBody;
+        return $this->responseBody;
     }
     
     /**
