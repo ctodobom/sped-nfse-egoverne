@@ -15,11 +15,9 @@ namespace NFePHP\NFSeEGoverne;
  * @link      http://github.com/nfephp-org/sped-nfse-egoverne for the canonical source repository
  */
 
-use NFePHP\NFSeEGoverne\Common\Tools as BaseTools;
-use NFePHP\NFSeEGoverne\RpsInterface;
-use NFePHP\Common\DOMImproved as Dom;
 use NFePHP\Common\Certificate;
 use NFePHP\Common\Validator;
+use NFePHP\NFSeEGoverne\Common\Tools as BaseTools;
 
 class Tools extends BaseTools
 {
@@ -48,7 +46,7 @@ class Tools extends BaseTools
      * @param integer $codigo
      * @return string
      */
-    public function cancelarNfse($id, $numero, $codigo = self::ERRO_EMISSAO)
+    public function cancelarNfse($numero, $codigo = self::ERRO_EMISSAO)
     {
         $pedido = $content = '';
         $operation = 'CancelarNfse';
@@ -103,16 +101,15 @@ class Tools extends BaseTools
     /**
      * Consulta Situação do Lote RPS (SINCRONO) após envio com recepcionarLoteRps() (ASSINCRONO)
      * complemento do processo de envio assincono.
-     * Que deve ser usado quando temos mais de um RPS sendo enviado
-     * por vez.
-     * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
-     * @param string $protocolo
-     * @return string
-     * Situacao:
+     * Que deve ser usado quando temos mais de um RPS sendo enviado por vez.
+     * ## Possiveis situações de retorno:
      * 1 – Não Recebido
      * 2 – Não Processado
      * 3 – Processado com Erro
      * 4 – Processado com Sucesso
+     * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarSituacaoLoteRps
+     * @param string $protocolo
+     * @return string
      */
     public function consultarSituacaoLoteRps($protocolo)
     {
@@ -132,11 +129,13 @@ class Tools extends BaseTools
     /**
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
-     * @param string $dini
-     * @param string $dfim
-     * @param string $tomadorCnpj
-     * @param string $tomadorCpf
-     * @param string $tomadorIM
+     * @param $dini
+     * @param $dfim
+     * @param null $tomadorCnpj
+     * @param null $tomadorCpf
+     * @param null $tomadorIM
+     * @param null $numeroNFSe
+     * @param null $intermediario
      * @return string
      */
     public function consultarNfse(
@@ -151,14 +150,17 @@ class Tools extends BaseTools
         $content = '';
         $operation = 'ConsultarNfse';
 
-        $content .= "<ConsultarNfse xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<ConsultarNfseEnvio>";
-        $content .=         $this->prestador;
-        $content .=         "<NumeroNfse>{$numeroNFSe}<NumeroNfse>";
-        $content .=         "<PeriodoEmissao>";
-        $content .=             "<DataInicial>{$dini}</DataInicial>";
-        $content .=             "<DataFinal>{$dfim}</DataFinal>";
-        $content .=         "</PeriodoEmissao>";
+        $content .= "<ConsultarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
+        $content .=     $this->prestador;
+
+        if($numeroNFSe){
+            $content .=     "<NumeroNfse>{$numeroNFSe}</NumeroNfse>";
+        }
+
+        $content .=     "<PeriodoEmissao>";
+        $content .=         "<DataInicial>{$dini}</DataInicial>";
+        $content .=         "<DataFinal>{$dfim}</DataFinal>";
+        $content .=     "</PeriodoEmissao>";
 
         if ($tomadorCnpj !== null || $tomadorCpf !== null) {
             if (isset($tomadorCnpj)) {
@@ -181,8 +183,7 @@ class Tools extends BaseTools
         }
 
         $content .=         $intermediario;
-        $content .=     "</ConsultarNfseEnvio>";
-        $content .= "</ConsultarNfse>";
+        $content .= "</ConsultarNfseEnvio>";
 
         Validator::isValid($content, $this->xsdpath);
 
