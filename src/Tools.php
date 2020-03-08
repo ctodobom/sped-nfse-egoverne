@@ -41,9 +41,8 @@ class Tools extends BaseTools
     /**
      * Solicita o cancelamento de NFSe (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=CancelarNfse
-     * @param string $id
-     * @param integer $numero
-     * @param integer $codigo
+     * @param $numero
+     * @param int $codigo
      * @return string
      */
     public function cancelarNfse($numero, $codigo = self::ERRO_EMISSAO)
