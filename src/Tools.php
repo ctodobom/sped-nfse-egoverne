@@ -26,11 +26,17 @@ class Tools extends BaseTools
 
     protected $xsdpath;
 
+    /**
+     * Constructor
+     * Configura variaveis basicas
+     *
+     * @param string $config
+     * @param Certificate $cert
+     */
     public function __construct($config, Certificate $cert)
     {
         parent::__construct($config, $cert);
         $path = realpath(__DIR__ . '/../storage/schemes');
-
         if (file_exists($this->xsdpath = $path . '/'.$this->config->cmun.'.xsd')) {
             $this->xsdpath = $path . '/'.$this->config->cmun.'.xsd';
         } else {
@@ -41,7 +47,8 @@ class Tools extends BaseTools
     /**
      * Solicita o cancelamento de NFSe (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=CancelarNfse
-     * @param $numero
+     *
+     * @param int $numero
      * @param int $codigo
      * @return string
      */
@@ -76,9 +83,9 @@ class Tools extends BaseTools
     /**
      * Consulta Lote RPS (SINCRONO) após envio com recepcionarLoteRps() (ASSINCRONO)
      * complemento do processo de envio assincono.
-     * Que deve ser usado quando temos mais de um RPS sendo enviado
-     * por vez.
+     * Que deve ser usado quando temos mais de um RPS sendo enviado por vez.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
+     *
      * @param string $protocolo
      * @return string
      */
@@ -101,12 +108,14 @@ class Tools extends BaseTools
      * Consulta Situação do Lote RPS (SINCRONO) após envio com recepcionarLoteRps() (ASSINCRONO)
      * complemento do processo de envio assincono.
      * Que deve ser usado quando temos mais de um RPS sendo enviado por vez.
+     *
      * ## Possiveis situações de retorno:
      * 1 – Não Recebido
      * 2 – Não Processado
      * 3 – Processado com Erro
      * 4 – Processado com Sucesso
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarSituacaoLoteRps
+     *
      * @param string $protocolo
      * @return string
      */
@@ -128,13 +137,14 @@ class Tools extends BaseTools
     /**
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
-     * @param $dini
-     * @param $dfim
-     * @param null $tomadorCnpj
-     * @param null $tomadorCpf
-     * @param null $tomadorIM
-     * @param null $numeroNFSe
-     * @param null $intermediario
+     *
+     * @param string $dini
+     * @param string $dfim
+     * @param string $tomadorCnpj
+     * @param string $tomadorCpf
+     * @param string $tomadorIM
+     * @param string $numeroNFSe
+     * @param string $intermediario
      * @return string
      */
     public function consultarNfse(
@@ -156,10 +166,10 @@ class Tools extends BaseTools
             $content .=     "<NumeroNfse>{$numeroNFSe}</NumeroNfse>";
         }
 
-        $content .=     "<PeriodoEmissao>";
-        $content .=         "<DataInicial>{$dini}</DataInicial>";
-        $content .=         "<DataFinal>{$dfim}</DataFinal>";
-        $content .=     "</PeriodoEmissao>";
+        $content .= "<PeriodoEmissao>";
+        $content .=     "<DataInicial>{$dini}</DataInicial>";
+        $content .=     "<DataFinal>{$dfim}</DataFinal>";
+        $content .= "</PeriodoEmissao>";
 
         if ($tomadorCnpj !== null || $tomadorCpf !== null) {
             if (isset($tomadorCnpj)) {
@@ -181,7 +191,7 @@ class Tools extends BaseTools
             $content .= "</Tomador>";
         }
 
-        $content .=         $intermediario;
+        $content .=  $intermediario; //??? O QUE É ESSE CAMPO
         $content .= "</ConsultarNfseEnvio>";
 
         Validator::isValid($content, $this->xsdpath);

@@ -4,9 +4,9 @@ ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
 use NFePHP\Common\Certificate;
-use NFePHP\NFSeNac\Tools;
-use NFePHP\NFSeNac\Common\Soap\SoapFake;
-use NFePHP\NFSeNac\Common\FakePretty;
+use NFePHP\NFSeEGoverne\Tools;
+use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
+use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
     $config = [
@@ -25,18 +25,17 @@ try {
 
     $soap = new SoapFake();
     $soap->disableCertValidation(true);
-    
+
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
     $id = 'C201800000000001';
     $numero = '201800000000001';
-    
+
     $response = $tools->cancelarNfse($id, $numero, $tools::ERRO_EMISSAO);
 
     echo FakePretty::prettyPrint($response, '');
- 
+
 } catch (\Exception $e) {
     echo $e->getMessage();
 }
-

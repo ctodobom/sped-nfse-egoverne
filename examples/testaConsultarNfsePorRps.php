@@ -6,11 +6,10 @@ require_once '../bootstrap.php';
 use NFePHP\Common\Certificate;
 use NFePHP\NFSeEGoverne\Tools;
 use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
-//use NFePHP\NFSeEGoverne\Common\Soap\SoapCurl;
 use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
-    
+
     // Teste em um ambiente real de produção
     $config = [
         'cnpj' => '03677669000291',
@@ -25,11 +24,10 @@ try {
     $content = file_get_contents('../../certs/03677669.pfx');
     $password = '03677669';
     $cert = Certificate::readPfx($content, $password);
-    
+
     $soap = new SoapFake();
-    //$soap = new SoapCurl($cert);
     $soap->disableCertValidation(true);
-    
+
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
@@ -38,10 +36,9 @@ try {
     $tipo = 1;
 
     $response = $tools->consultarNfsePorRps($numero, $serie, $tipo);
-    
-    //echo $response;
+
     echo FakePretty::prettyPrint($response, '');
- 
+
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

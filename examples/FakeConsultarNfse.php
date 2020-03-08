@@ -4,12 +4,12 @@ ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
 use NFePHP\Common\Certificate;
-use NFePHP\NFSeNac\Tools;
-use NFePHP\NFSeNac\Common\Soap\SoapFake;
-use NFePHP\NFSeNac\Common\FakePretty;
+use NFePHP\NFSeEGoverne\Tools;
+use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
+use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
-    
+
     $config = [
         'cnpj' => '99999999000191',
         'im' => '1733160024',
@@ -23,10 +23,10 @@ try {
     $content = file_get_contents('expired_certificate.pfx');
     $password = 'associacao';
     $cert = Certificate::readPfx($content, $password);
-    
+
     $soap = new SoapFake();
     $soap->disableCertValidation(true);
-    
+
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
@@ -35,12 +35,12 @@ try {
     $tomadorCnpj = '12345678901234'; //opcional
     $tomadorCpf = null; //opcional
     $tomadorIM = null; //opcional
-    
+
 
     $response = $tools->consultarNfse($dini, $dfim, $tomadorCnpj, $tomadorCpf, $tomadorIM);
-    
+
     echo FakePretty::prettyPrint($response, '');
- 
+
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

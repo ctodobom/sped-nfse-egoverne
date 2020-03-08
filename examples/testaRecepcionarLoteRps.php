@@ -7,11 +7,10 @@ use NFePHP\Common\Certificate;
 use NFePHP\NFSeEGoverne\Tools;
 use NFePHP\NFSeEGoverne\Rps;
 use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
-//use NFePHP\NFSeEGoverne\Common\Soap\SoapCurl;
 use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
-    
+
     // Teste em um ambiente real de produção
     $config = [
         'cnpj' => '03677669000291',
@@ -26,16 +25,14 @@ try {
     $content = file_get_contents('../../certs/03677669.pfx');
     $password = '03677669';
     $cert = Certificate::readPfx($content, $password);
-    
-    //$soap = new SoapFake();
-    $soap = new SoapCurl($cert);
-    $soap->disableCertValidation(false);
-    
+
+    $soap = new SoapFake();
+
     $tools = new Tools($configJson, $cert);
-    //$tools->loadSoapClass($soap);
-    
+    $tools->loadSoapClass($soap);
+
     $arps = [];
-    
+
     $std = new \stdClass();
     $std->version = '2.01';
     $std->IdentificacaoRps = new \stdClass();
@@ -64,7 +61,7 @@ try {
     $std->Prestador = new \stdClass();
     $std->Prestador->Cnpj = "03677669000291";
     $std->Prestador->InscricaoMunicipal = "04068479";
-    
+
     $std->Tomador = new \stdClass();
     //$std->Tomador->Cnpj = "99999999000191";
     $std->Tomador->Cpf = "27277970989";
@@ -79,7 +76,7 @@ try {
     $std->Tomador->Endereco->CodigoMunicipio = 4106902;
     $std->Tomador->Endereco->Uf = 'PR';
     $std->Tomador->Endereco->Cep = 82840190;
-    
+
     $std->Tomador->Contato = new \stdClass();
     $std->Tomador->Contato->Telefone = "41999999999";
     $std->Tomador->Contato->Email = "email@ig.com.br";
@@ -107,24 +104,23 @@ try {
     $std->Servico->Valores->ValorLiquidoNfse = 190.33;
     $std->Servico->Valores->DescontoIncondicionado = 0.00;
     $std->Servico->Valores->DescontoCondicionado = 0.00;
-    
+
     //$std->IntermediarioServico = new \stdClass();
-    //$std->IntermediarioServico->RazaoSocial = 'INSCRICAO DE TESTE SIATU - D AGUA -PAULINO S'; 
+    //$std->IntermediarioServico->RazaoSocial = 'INSCRICAO DE TESTE SIATU - D AGUA -PAULINO S';
     //$std->IntermediarioServico->Cnpj = '99999999000191';
     //$std->IntermediarioServico->InscricaoMunicipal = '8041700010';
-    
+
     //$std->ConstrucaoCivil = new \stdClass();
     //$std->ConstrucaoCivil->CodigoObra = '1234';
     //$std->ConstrucaoCivil->Art = '1234';
-    
+
     $arps[] = new Rps($std);
-    
+
     $lote = '216289';
     $response = $tools->recepcionarLoteRps($arps, $lote);
-    
-    //print_r($response);
+
     echo FakePretty::prettyPrint($response, '');
- 
+
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

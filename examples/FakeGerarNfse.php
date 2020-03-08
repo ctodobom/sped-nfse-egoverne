@@ -113,7 +113,6 @@ try {
 
     $response = $tools->recepcionarLoteRps([$rps], $lote);
 
-    //print_r($response);
     echo FakePretty::prettyPrint($response, '');
 
 

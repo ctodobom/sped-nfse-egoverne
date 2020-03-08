@@ -4,13 +4,13 @@ ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
 use NFePHP\Common\Certificate;
-use NFePHP\NFSeNac\Tools;
-use NFePHP\NFSeNac\Rps;
-use NFePHP\NFSeNac\Common\Soap\SoapFake;
-use NFePHP\NFSeNac\Common\FakePretty;
+use NFePHP\NFSeEGoverne\Tools;
+use NFePHP\NFSeEGoverne\Rps;
+use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
+use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
-    
+
     $config = [
         'cnpj' => '99999999000191',
         'im' => '1733160024',
@@ -24,15 +24,15 @@ try {
     $content = file_get_contents('expired_certificate.pfx');
     $password = 'associacao';
     $cert = Certificate::readPfx($content, $password);
-    
+
     $soap = new SoapFake();
     $soap->disableCertValidation(true);
-    
+
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
-    
+
     $arps = [];
-    
+
     $std = new \stdClass();
     $std->version = '1.00';
     $std->IdentificacaoRps = new \stdClass();
@@ -71,7 +71,7 @@ try {
     $std->Tomador->Endereco->CodigoMunicipio = 3106200;
     $std->Tomador->Endereco->Uf = 'MG';
     $std->Tomador->Endereco->Cep = 30160010;
-    
+
     $std->Servico = new \stdClass();
     $std->Servico->ItemListaServico = '11.01';
     $std->Servico->CodigoTributacaoMunicipio = '522310000';
@@ -92,23 +92,23 @@ try {
     $std->Servico->Valores->Aliquota = 5;
     $std->Servico->Valores->DescontoIncondicionado = 10.00;
     $std->Servico->Valores->DescontoCondicionado = 10.00;
-    
+
     $std->IntermediarioServico = new \stdClass();
-    $std->IntermediarioServico->RazaoSocial = 'INSCRICAO DE TESTE SIATU - D AGUA -PAULINO S'; 
+    $std->IntermediarioServico->RazaoSocial = 'INSCRICAO DE TESTE SIATU - D AGUA -PAULINO S';
     $std->IntermediarioServico->Cnpj = '99999999000191';
     $std->IntermediarioServico->InscricaoMunicipal = '8041700010';
-    
+
     $std->ConstrucaoCivil = new \stdClass();
     $std->ConstrucaoCivil->CodigoObra = '1234';
     $std->ConstrucaoCivil->Art = '1234';
-    
+
     $arps[] = new Rps($std);
-    
+
     $lote = '123456';
     $response = $tools->recepcionarLoteRps($arps, $lote);
-    
+
     echo FakePretty::prettyPrint($response, '');
- 
+
 } catch (\Exception $e) {
     echo $e->getMessage();
 }
