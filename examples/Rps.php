@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
-use NFePHP\NFSeNac\Rps;
+use NFePHP\NFSeEGoverne\Rps;
 
 $std = new \stdClass();
 $std->version = '1.00'; //indica qual JsonSchema USAR na validação
@@ -66,7 +66,7 @@ $std->Servico->Valores->DescontoIncondicionado = 10.00;
 $std->Servico->Valores->DescontoCondicionado = 10.00;
 
 $std->IntermediarioServico = new \stdClass();
-$std->IntermediarioServico->RazaoSocial = 'INSCRICAO DE TESTE SIATU - D AGUA -PAULINO S'; 
+$std->IntermediarioServico->RazaoSocial = 'INSCRICAO DE TESTE SIATU - D AGUA -PAULINO S';
 $std->IntermediarioServico->Cnpj = '99999999000191';
 $std->IntermediarioServico->InscricaoMunicipal = '8041700010';
 
@@ -84,4 +84,3 @@ echo "<pre>";
 print_r(json_encode($std));
 echo "</pre>";
 */
-
