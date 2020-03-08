@@ -152,7 +152,7 @@ class Tools extends BaseTools
         $content .= "<ConsultarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
         $content .=     $this->prestador;
 
-        if($numeroNFSe){
+        if ($numeroNFSe !== null) {
             $content .=     "<NumeroNfse>{$numeroNFSe}</NumeroNfse>";
         }
 
