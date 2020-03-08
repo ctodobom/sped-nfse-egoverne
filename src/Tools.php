@@ -101,6 +101,35 @@ class Tools extends BaseTools
     }
 
     /**
+     * Consulta Situação do Lote RPS (SINCRONO) após envio com recepcionarLoteRps() (ASSINCRONO)
+     * complemento do processo de envio assincono.
+     * Que deve ser usado quando temos mais de um RPS sendo enviado
+     * por vez.
+     * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
+     * @param string $protocolo
+     * @return string
+     * Situacao:
+     * 1 – Não Recebido
+     * 2 – Não Processado
+     * 3 – Processado com Erro
+     * 4 – Processado com Sucesso
+     */
+    public function consultarSituacaoLoteRps($protocolo)
+    {
+        $content = '';
+        $operation = 'ConsultarSituacaoLoteRps';
+
+        $content .= "<ConsultarSituacaoLoteRpsEnvio xmlns=\"{$this->wsobj->msgns}\">";
+        $content .=     $this->prestador;
+        $content .=     "<Protocolo>{$protocolo}</Protocolo>";
+        $content .= "</ConsultarSituacaoLoteRpsEnvio>";
+
+        Validator::isValid($content, $this->xsdpath);
+
+        return $this->send($content, $operation);
+    }
+
+    /**
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
      * @param string $dini
