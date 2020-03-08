@@ -1,14 +1,8 @@
 # sped-nfse-egoverne
 
-[![Join the chat at https://gitter.im/nfephp-org/sped-nfse-egoverne](https://badges.gitter.im/nfephp-org/sped-nfse-nacional.svg)](https://gitter.im/nfephp-org/sped-nfse-nacional?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Biblioteca para integração NFSe Modelo eGoverne de Curitiba PR
 
-Api para comunicação com webservices do Projeto NFSe EGoverne
-
-## Esta API esta sendo testada para Curitiba/PR (apenas) e está em BETHA TESTES
-
-*Utilize o chat do Gitter para iniciar discussões especificas sobre o desenvolvimento deste pacote.*
-
-[![Chat][ico-gitter]][link-gitter]
+## BETHA TESTES
 
 [![Latest Stable Version][ico-stable]][link-packagist]
 [![Build Status][ico-travis]][link-travis]
@@ -30,9 +24,12 @@ Este pacote é aderente com os [PSR-1], [PSR-2] e [PSR-4]. Se você observar neg
 
 Não deixe de se cadastrar no [grupo de discussão do NFePHP](http://groups.google.com/group/nfephp) para acompanhar o desenvolvimento e participar das discussões e tirar duvidas!
 
-O "Projeto Piloto" está com certeza sendo aplicado a:
+## Municípios atendidos pelo provedor
 
-- Curitiba (PR)
+|n|Município|UF|Ibge|
+|:---:|:---|:---:|:---:|
+|1|Curitiba|PR|4106902|
+
 
 ## Dependências
 
@@ -50,7 +47,6 @@ O "Projeto Piloto" está com certeza sendo aplicado a:
 
 - nfephp-org/sped-common
 - justinrainbow/json-schema
-
 
 
 ## Contribuindo
@@ -136,4 +132,3 @@ Este pacote está diponibilizado sob LGPLv3 ou MIT License (MIT). Leia  [Arquivo
 [link-issues]: https://github.com/nfephp-org/sped-nfse-egoverne/issues
 [link-forks]: https://github.com/nfephp-org/sped-nfse-egoverne/network
 [link-stars]: https://github.com/nfephp-org/sped-nfse-egoverne/stargazers
-[link-gitter]: https://gitter.im/nfephp-org/sped-nfse-egoverne?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
