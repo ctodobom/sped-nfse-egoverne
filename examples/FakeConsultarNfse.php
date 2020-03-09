@@ -13,9 +13,9 @@ try {
     $config = [
         'cnpj' => '99999999000191',
         'im' => '1733160024',
-        'cmun' => '4314902',
+        'cmun' => '4106902',
         'razao' => 'Empresa Test Ltda',
-        'tpamb' => 1
+        'tpamb' => 2
     ];
 
     $configJson = json_encode($config);
@@ -30,14 +30,21 @@ try {
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
-    $dini = '2018-01-01'; //obrigatório
-    $dfim = '2018-10-31'; //obrigatório
-    $tomadorCnpj = '12345678901234'; //opcional
-    $tomadorCpf = null; //opcional
-    $tomadorIM = null; //opcional
+    //Campos obrigatórios
+    $filtro = new stdClass();
+    $filtro->dataInicial = '2018-01-01';
+    $filtro->dataFinal = '2018-01-31';
 
+    //Opcional
+    $filtro->numeroNfse = 5555;
 
-    $response = $tools->consultarNfse($dini, $dfim, $tomadorCnpj, $tomadorCpf, $tomadorIM);
+    //Opcional
+    $filtro->tomador = new stdClass();
+    $filtro->tomador->cpf = null;
+    $filtro->tomador->cnpj = '12345678901234';
+    $filtro->tomador->inscricaoMunicipal = null;
+
+    $response = $tools->consultarNfse($filtro);
 
     echo FakePretty::prettyPrint($response, '');
 

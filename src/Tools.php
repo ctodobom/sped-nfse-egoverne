@@ -138,60 +138,50 @@ class Tools extends BaseTools
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
      *
-     * @param string $dini
-     * @param string $dfim
-     * @param string $tomadorCnpj
-     * @param string $tomadorCpf
-     * @param string $tomadorIM
-     * @param string $numeroNFSe
-     * @param string $intermediario
+     * @param $filtro
+     *        #Obrigatorio (dataInicial e dataFinal)
+     *        #Opcional (numeroNfse, tomador)
      * @return string
      */
-    public function consultarNfse(
-        $dini,
-        $dfim,
-        $tomadorCnpj = null,
-        $tomadorCpf = null,
-        $tomadorIM = null,
-        $numeroNFSe = null,
-        $intermediario = null
-    ) {
+    public function consultarNfse($filtro) {
+
         $content = '';
         $operation = 'ConsultarNfse';
 
         $content .= "<ConsultarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
         $content .=     $this->prestador;
 
-        if ($numeroNFSe !== null) {
-            $content .=     "<NumeroNfse>{$numeroNFSe}</NumeroNfse>";
+        if (isset($filtro->numeroNfse) && $filtro->numeroNfse !== null) {
+            $content .=     "<NumeroNfse>{$filtro->numeroNfse}</NumeroNfse>";
         }
 
         $content .= "<PeriodoEmissao>";
-        $content .=     "<DataInicial>{$dini}</DataInicial>";
-        $content .=     "<DataFinal>{$dfim}</DataFinal>";
+        $content .=     "<DataInicial>{$filtro->dataInicial}</DataInicial>";
+        $content .=     "<DataFinal>{$filtro->dataFinal}</DataFinal>";
         $content .= "</PeriodoEmissao>";
 
-        if ($tomadorCnpj !== null || $tomadorCpf !== null) {
-            if (isset($tomadorCnpj)) {
-                $tomadorDocumento = "<Cnpj>{$tomadorCnpj}</Cnpj>";
-            } else {
-                $tomadorDocumento = "<Cpf>{$tomadorCpf}</Cpf>";
-            }
+        if (isset($filtro->tomador) && $filtro->tomador !== null) {
+            if ($filtro->tomador->cnpj !== null || $filtro->tomador->cpf !== null) {
 
-            $tomadorInscMun = '';
-            if (isset($tomadorIM)) {
-                $tomadorInscMun = "<InscricaoMunicipal>{$tomadorIM}</InscricaoMunicipal>";
-            }
+                $content .= "<Tomador>";
+                $content .= "<CpfCnpj>";
 
-            $content .= "<Tomador>";
-            $content .=     "<CpfCnpj>";
-            $content .=         $tomadorDocumento;
-            $content .=     "</CpfCnpj>";
-            $content .=     $tomadorInscMun;
-            $content .= "</Tomador>";
+                if (isset($filtro->tomador->cnpj)) {
+                    $content .= "<Cnpj>{$filtro->tomador->cnpj}</Cnpj>";
+                } else {
+                    $content .= "<Cpf>{$filtro->tomador->cpf}</Cpf>";
+                }
+
+                $content .= "</CpfCnpj>";
+
+                if (isset($filtro->tomador->InscricaoMunicipal) && $filtro->tomador->InscricaoMunicipal !== null) {
+                    $content .= "<InscricaoMunicipal>{$filtro->tomador->InscricaoMunicipal}</InscricaoMunicipal>";
+                }
+
+                $content .= "</Tomador>";
+            }
         }
 
-        $content .=  $intermediario; //??? O QUE É ESSE CAMPO
         $content .= "</ConsultarNfseEnvio>";
 
         Validator::isValid($content, $this->xsdpath);
