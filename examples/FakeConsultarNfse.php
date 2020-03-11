@@ -47,7 +47,6 @@ try {
     $response = $tools->consultarNfse($filtro);
 
     echo FakePretty::prettyPrint($response, '');
-
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

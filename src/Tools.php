@@ -37,8 +37,8 @@ class Tools extends BaseTools
     {
         parent::__construct($config, $cert);
         $path = realpath(__DIR__ . '/../storage/schemes');
-        if (file_exists($this->xsdpath = $path . '/'.$this->config->cmun.'.xsd')) {
-            $this->xsdpath = $path . '/'.$this->config->cmun.'.xsd';
+        if (file_exists($this->xsdpath = $path . '/' . $this->config->cmun . '.xsd')) {
+            $this->xsdpath = $path . '/' . $this->config->cmun . '.xsd';
         } else {
             $this->xsdpath = $path . '/nfse_v20_08_2015.xsd';
         }
@@ -143,8 +143,8 @@ class Tools extends BaseTools
      *        #Opcional (numeroNfse, tomador)
      * @return string
      */
-    public function consultarNfse($filtro) {
-
+    public function consultarNfse($filtro)
+    {
         $content = '';
         $operation = 'ConsultarNfse';
 
@@ -175,7 +175,9 @@ class Tools extends BaseTools
                 $content .= "</CpfCnpj>";
 
                 if (isset($filtro->tomador->InscricaoMunicipal) && $filtro->tomador->InscricaoMunicipal !== null) {
-                    $content .= "<InscricaoMunicipal>{$filtro->tomador->InscricaoMunicipal}</InscricaoMunicipal>";
+                    $content .= "<InscricaoMunicipal>";
+                    $content .= $filtro->tomador->InscricaoMunicipal;
+                    $content .= "</InscricaoMunicipal>";
                 }
 
                 $content .= "</Tomador>";
@@ -244,7 +246,9 @@ class Tools extends BaseTools
         $content .=     "<LoteRps>";
         $content .=         "<NumeroLote>{$lote}</NumeroLote>";
         $content .=         "<Cnpj>{$this->config->cnpj}</Cnpj>";
-        $content .=         "<InscricaoMunicipal>{$this->config->im}</InscricaoMunicipal>";
+        $content .=         "<InscricaoMunicipal>";
+        $content .=         $this->config->im;
+        $content .=         "</InscricaoMunicipal>";
         $content .=         "<QuantidadeRps>{$countRps}</QuantidadeRps>";
         $content .=         "<ListaRps>";
         $content .=             $listaRpsContent;
