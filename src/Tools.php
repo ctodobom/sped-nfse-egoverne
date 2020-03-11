@@ -162,7 +162,6 @@ class Tools extends BaseTools
 
         if (isset($filtro->tomador) && $filtro->tomador !== null) {
             if ($filtro->tomador->cnpj !== null || $filtro->tomador->cpf !== null) {
-
                 $content .= "<Tomador>";
                 $content .= "<CpfCnpj>";
 
