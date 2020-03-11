@@ -30,7 +30,7 @@ class Tools extends BaseTools
      * Constructor
      * Configura variaveis basicas
      *
-     * @param string $config
+     * @param string      $config
      * @param Certificate $cert
      */
     public function __construct($config, Certificate $cert)
@@ -48,8 +48,8 @@ class Tools extends BaseTools
      * Solicita o cancelamento de NFSe (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=CancelarNfse
      *
-     * @param int $numero
-     * @param int $codigo
+     * @param  int $numero
+     * @param  int $codigo
      * @return string
      */
     public function cancelarNfse($numero, $codigo = self::ERRO_EMISSAO)
@@ -86,7 +86,7 @@ class Tools extends BaseTools
      * Que deve ser usado quando temos mais de um RPS sendo enviado por vez.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
      *
-     * @param string $protocolo
+     * @param  string $protocolo
      * @return string
      */
     public function consultarLoteRps($protocolo)
@@ -116,7 +116,7 @@ class Tools extends BaseTools
      * 4 – Processado com Sucesso
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarSituacaoLoteRps
      *
-     * @param string $protocolo
+     * @param  string $protocolo
      * @return string
      */
     public function consultarSituacaoLoteRps($protocolo)
@@ -138,7 +138,7 @@ class Tools extends BaseTools
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
      *
-     * @param $filtro
+     * @param  $filtro
      *        #Obrigatorio (dataInicial e dataFinal)
      *        #Opcional (numeroNfse, tomador)
      * @return string
@@ -194,9 +194,10 @@ class Tools extends BaseTools
     /**
      * Consulta NFSe por RPS (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfsePorRps
-     * @param integer $numero
-     * @param string $serie
-     * @param integer $tipo
+     *
+     * @param  integer $numero
+     * @param  string  $serie
+     * @param  integer $tipo
      * @return string
      */
     public function consultarNfsePorRps($numero, $serie, $tipo)
@@ -221,8 +222,9 @@ class Tools extends BaseTools
     /**
      * Envia LOTE de RPS para emissão de NFSe (ASSINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarLoteRps
-     * @param array $arps Array contendo de 1 a 50 RPS::class
-     * @param string $lote Número do lote de envio
+     *
+     * @param  array  $arps Array contendo de 1 a 50 RPS::class
+     * @param  string $lote Número do lote de envio
      * @return string
      * @throws \Exception
      */
@@ -265,8 +267,9 @@ class Tools extends BaseTools
     /**
      * Buscar Usuario (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=BuscarUsuario
-     * @param string $cnpj
-     * @param string $imu
+     *
+     * @param  string $cnpj
+     * @param  string $imu
      * @return string
      */
     public function buscarUsuario($cnpj, $imu)
@@ -291,8 +294,9 @@ class Tools extends BaseTools
      *                         ConsultarNfse, ConsultarLoteRps e CancelarNfse)
      * e o Parâmetro (xml) deve ser a mensagem xml a ser enviada.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarXml
-     * @param string $metodo
-     * @param string $xml
+     *
+     * @param  string $metodo
+     * @param  string $xml
      * @return string
      */
     public function recepcionarXml($metodo, $xml)
@@ -314,7 +318,8 @@ class Tools extends BaseTools
      * Validar Xml (SINCRONO)
      * Realiza a validação básica de um xml de acordo com o schema xsd
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ValidarXml
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return string
      */
     public function validarXml($xml)
