@@ -30,15 +30,15 @@ class Tools extends BaseTools
      * Constructor
      * Configura variaveis basicas
      *
-     * @param string $config
+     * @param string      $config
      * @param Certificate $cert
      */
     public function __construct($config, Certificate $cert)
     {
         parent::__construct($config, $cert);
         $path = realpath(__DIR__ . '/../storage/schemes');
-        if (file_exists($this->xsdpath = $path . '/'.$this->config->cmun.'.xsd')) {
-            $this->xsdpath = $path . '/'.$this->config->cmun.'.xsd';
+        if (file_exists($this->xsdpath = $path . '/' . $this->config->cmun . '.xsd')) {
+            $this->xsdpath = $path . '/' . $this->config->cmun . '.xsd';
         } else {
             $this->xsdpath = $path . '/nfse_v20_08_2015.xsd';
         }
@@ -48,8 +48,8 @@ class Tools extends BaseTools
      * Solicita o cancelamento de NFSe (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=CancelarNfse
      *
-     * @param int $numero
-     * @param int $codigo
+     * @param  int $numero
+     * @param  int $codigo
      * @return string
      */
     public function cancelarNfse($numero, $codigo = self::ERRO_EMISSAO)
@@ -86,7 +86,7 @@ class Tools extends BaseTools
      * Que deve ser usado quando temos mais de um RPS sendo enviado por vez.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
      *
-     * @param string $protocolo
+     * @param  string $protocolo
      * @return string
      */
     public function consultarLoteRps($protocolo)
@@ -116,7 +116,7 @@ class Tools extends BaseTools
      * 4 – Processado com Sucesso
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarSituacaoLoteRps
      *
-     * @param string $protocolo
+     * @param  string $protocolo
      * @return string
      */
     public function consultarSituacaoLoteRps($protocolo)
@@ -138,60 +138,51 @@ class Tools extends BaseTools
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
      *
-     * @param string $dini
-     * @param string $dfim
-     * @param string $tomadorCnpj
-     * @param string $tomadorCpf
-     * @param string $tomadorIM
-     * @param string $numeroNFSe
-     * @param string $intermediario
+     * @param  $filtro
+     *        #Obrigatorio (dataInicial e dataFinal)
+     *        #Opcional (numeroNfse, tomador)
      * @return string
      */
-    public function consultarNfse(
-        $dini,
-        $dfim,
-        $tomadorCnpj = null,
-        $tomadorCpf = null,
-        $tomadorIM = null,
-        $numeroNFSe = null,
-        $intermediario = null
-    ) {
+    public function consultarNfse($filtro)
+    {
         $content = '';
         $operation = 'ConsultarNfse';
 
         $content .= "<ConsultarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
         $content .=     $this->prestador;
 
-        if ($numeroNFSe !== null) {
-            $content .=     "<NumeroNfse>{$numeroNFSe}</NumeroNfse>";
+        if (isset($filtro->numeroNfse) && $filtro->numeroNfse !== null) {
+            $content .=     "<NumeroNfse>{$filtro->numeroNfse}</NumeroNfse>";
         }
 
         $content .= "<PeriodoEmissao>";
-        $content .=     "<DataInicial>{$dini}</DataInicial>";
-        $content .=     "<DataFinal>{$dfim}</DataFinal>";
+        $content .=     "<DataInicial>{$filtro->dataInicial}</DataInicial>";
+        $content .=     "<DataFinal>{$filtro->dataFinal}</DataFinal>";
         $content .= "</PeriodoEmissao>";
 
-        if ($tomadorCnpj !== null || $tomadorCpf !== null) {
-            if (isset($tomadorCnpj)) {
-                $tomadorDocumento = "<Cnpj>{$tomadorCnpj}</Cnpj>";
-            } else {
-                $tomadorDocumento = "<Cpf>{$tomadorCpf}</Cpf>";
-            }
+        if (isset($filtro->tomador) && $filtro->tomador !== null) {
+            if ($filtro->tomador->cnpj !== null || $filtro->tomador->cpf !== null) {
+                $content .= "<Tomador>";
+                $content .= "<CpfCnpj>";
 
-            $tomadorInscMun = '';
-            if (isset($tomadorIM)) {
-                $tomadorInscMun = "<InscricaoMunicipal>{$tomadorIM}</InscricaoMunicipal>";
-            }
+                if (isset($filtro->tomador->cnpj)) {
+                    $content .= "<Cnpj>{$filtro->tomador->cnpj}</Cnpj>";
+                } else {
+                    $content .= "<Cpf>{$filtro->tomador->cpf}</Cpf>";
+                }
 
-            $content .= "<Tomador>";
-            $content .=     "<CpfCnpj>";
-            $content .=         $tomadorDocumento;
-            $content .=     "</CpfCnpj>";
-            $content .=     $tomadorInscMun;
-            $content .= "</Tomador>";
+                $content .= "</CpfCnpj>";
+
+                if (isset($filtro->tomador->InscricaoMunicipal) && $filtro->tomador->InscricaoMunicipal !== null) {
+                    $content .= "<InscricaoMunicipal>";
+                    $content .= $filtro->tomador->InscricaoMunicipal;
+                    $content .= "</InscricaoMunicipal>";
+                }
+
+                $content .= "</Tomador>";
+            }
         }
 
-        $content .=  $intermediario; //??? O QUE É ESSE CAMPO
         $content .= "</ConsultarNfseEnvio>";
 
         Validator::isValid($content, $this->xsdpath);
@@ -202,9 +193,10 @@ class Tools extends BaseTools
     /**
      * Consulta NFSe por RPS (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfsePorRps
-     * @param integer $numero
-     * @param string $serie
-     * @param integer $tipo
+     *
+     * @param  integer $numero
+     * @param  string  $serie
+     * @param  integer $tipo
      * @return string
      */
     public function consultarNfsePorRps($numero, $serie, $tipo)
@@ -229,8 +221,9 @@ class Tools extends BaseTools
     /**
      * Envia LOTE de RPS para emissão de NFSe (ASSINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarLoteRps
-     * @param array $arps Array contendo de 1 a 50 RPS::class
-     * @param string $lote Número do lote de envio
+     *
+     * @param  array  $arps Array contendo de 1 a 50 RPS::class
+     * @param  string $lote Número do lote de envio
      * @return string
      * @throws \Exception
      */
@@ -254,7 +247,9 @@ class Tools extends BaseTools
         $content .=     "<LoteRps>";
         $content .=         "<NumeroLote>{$lote}</NumeroLote>";
         $content .=         "<Cnpj>{$this->config->cnpj}</Cnpj>";
-        $content .=         "<InscricaoMunicipal>{$this->config->im}</InscricaoMunicipal>";
+        $content .=         "<InscricaoMunicipal>";
+        $content .=         $this->config->im;
+        $content .=         "</InscricaoMunicipal>";
         $content .=         "<QuantidadeRps>{$countRps}</QuantidadeRps>";
         $content .=         "<ListaRps>";
         $content .=             $listaRpsContent;
@@ -271,8 +266,9 @@ class Tools extends BaseTools
     /**
      * Buscar Usuario (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=BuscarUsuario
-     * @param string $cnpj
-     * @param string $imu
+     *
+     * @param  string $cnpj
+     * @param  string $imu
      * @return string
      */
     public function buscarUsuario($cnpj, $imu)
@@ -297,8 +293,9 @@ class Tools extends BaseTools
      *                         ConsultarNfse, ConsultarLoteRps e CancelarNfse)
      * e o Parâmetro (xml) deve ser a mensagem xml a ser enviada.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarXml
-     * @param string $metodo
-     * @param string $xml
+     *
+     * @param  string $metodo
+     * @param  string $xml
      * @return string
      */
     public function recepcionarXml($metodo, $xml)
@@ -320,7 +317,8 @@ class Tools extends BaseTools
      * Validar Xml (SINCRONO)
      * Realiza a validação básica de um xml de acordo com o schema xsd
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ValidarXml
-     * @param string $xml
+     *
+     * @param  string $xml
      * @return string
      */
     public function validarXml($xml)
