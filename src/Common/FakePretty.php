@@ -15,7 +15,6 @@ namespace NFePHP\NFSeEGoverne\Common;
  * @author    Roberto L. Machado <linux.rlm at gmail dot com>
  * @link      http://github.com/nfephp-org/sped-nfse-egoverne for the canonical source repository
  */
-
 class FakePretty
 {
     public static function prettyPrint($response, $save = '')
@@ -67,7 +66,7 @@ class FakePretty
         $html .= '<h2>body</h2>';
         $html .= str_replace(
             ['<', '>'],
-            ['&lt;','&gt;'],
+            ['&lt;', '&gt;'],
             str_replace(
                 '<?xml version="1.0"?>',
                 '<?xml version="1.0" encoding="UTF-8"?>',

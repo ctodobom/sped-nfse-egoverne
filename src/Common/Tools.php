@@ -25,26 +25,14 @@ use NFePHP\NFSeEGoverne\Common\Soap\SoapCurl;
 class Tools
 {
     public $lastRequest;
-    
+
     protected $config;
     protected $prestador;
     protected $certificate;
     protected $wsobj;
     protected $soap;
     protected $environment;
-    
-    protected $urls = [
-        '4106902' => [
-            'municipio' => 'Curitiba',
-            'uf' => 'PR',
-            'homologacao' => 'https://piloto-iss.curitiba.pr.gov.br/nfse_ws/NfseWs.asmx',
-            'producao' => 'https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx',
-            'version' => '2.01',
-            'msgns' => 'http://isscuritiba.curitiba.pr.gov.br/iss/nfse.xsd',
-            'soapns' => 'http://www.e-governeapps2.com.br'
-        ]
-    ];
-    
+
     /**
      * Constructor
      * @param string $config
@@ -55,14 +43,30 @@ class Tools
         $this->config = json_decode($config);
         $this->certificate = $cert;
         $this->buildPrestadorTag();
-        $wsobj = $this->urls;
-        $this->wsobj = json_decode(json_encode($this->urls[$this->config->cmun]));
+        $this->wsobj = $this->loadWsobj($this->config->cmun);
         $this->environment = 'homologacao';
         if ($this->config->tpamb === 1) {
             $this->environment = 'producao';
         }
     }
-    
+
+    /**
+     * load webservice parameters
+     * @param string $cmun
+     * @return object
+     * @throws \Exception
+     */
+    protected function loadWsobj($cmun)
+    {
+        $path = realpath(__DIR__ . "/../../storage/urls_webservices.json");
+        $urls = json_decode(file_get_contents($path), true);
+        if (empty($urls[$cmun])) {
+            throw new \Exception("Não localizado parâmetros para esse municipio.");
+        }
+        return (object)$urls[$cmun];
+    }
+
+
     /**
      * SOAP communication dependency injection
      * @param SoapInterface $soap
@@ -71,7 +75,7 @@ class Tools
     {
         $this->soap = $soap;
     }
-    
+
     /**
      * Build tag Prestador
      */
@@ -104,7 +108,7 @@ class Tools
         $dom->loadXML($xml);
         return $dom->saveXML($dom->documentElement);
     }
-    
+
     /**
      * Send message to webservice
      * @param string $message
@@ -120,7 +124,7 @@ class Tools
         }
         $request = $this->createSoapRequest($message, $operation);
         $this->lastRequest = $request;
-        
+
         if (empty($this->soap)) {
             $this->soap = new SoapCurl($this->certificate);
         }
@@ -130,7 +134,7 @@ class Tools
             "SOAPAction: \"$action\"",
             "Content-length: $msgSize"
         ];
-        $response = (string) $this->soap->send(
+        $response = (string)$this->soap->send(
             $operation,
             $url,
             $action,
@@ -139,7 +143,7 @@ class Tools
         );
         return $response;
     }
-    
+
     /**
      * Build SOAP request
      * @param string $message
@@ -158,7 +162,7 @@ class Tools
             . "</{$operation}>"
             . "</soap:Body>"
             . "</soap:Envelope>";
-            
+
         $dom = new Dom('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = false;

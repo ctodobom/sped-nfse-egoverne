@@ -14,7 +14,6 @@ namespace NFePHP\NFSeEGoverne;
  * @author    Roberto L. Machado <linux.rlm at gmail dot com>
  * @link      http://github.com/nfephp-org/sped-nfse-egoverne for the canonical source repository
  */
-
 interface RpsInterface
 {
     public function render();

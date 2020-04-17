@@ -30,7 +30,7 @@ class Tools extends BaseTools
      * Constructor
      * Configura variaveis basicas
      *
-     * @param string      $config
+     * @param string $config
      * @param Certificate $cert
      */
     public function __construct($config, Certificate $cert)
@@ -56,27 +56,22 @@ class Tools extends BaseTools
     {
         $pedido = $content = '';
         $operation = 'CancelarNfse';
-
         $pedido .= "<Pedido>";
-        $pedido .=     "<InfPedidoCancelamento>";
-        $pedido .=         "<IdentificacaoNfse>";
-        $pedido .=             "<Numero>{$numero}</Numero>";
-        $pedido .=             "<Cnpj>{$this->config->cnpj}</Cnpj>";
-        $pedido .=             "<InscricaoMunicipal>{$this->config->im}</InscricaoMunicipal>";
-        $pedido .=             "<CodigoMunicipio>{$this->config->cmun}</CodigoMunicipio>";
-        $pedido .=         "</IdentificacaoNfse>";
-        $pedido .=         "<CodigoCancelamento>{$codigo}</CodigoCancelamento>";
-        $pedido .=     "</InfPedidoCancelamento>";
+        $pedido .= "<InfPedidoCancelamento>";
+        $pedido .= "<IdentificacaoNfse>";
+        $pedido .= "<Numero>{$numero}</Numero>";
+        $pedido .= "<Cnpj>{$this->config->cnpj}</Cnpj>";
+        $pedido .= "<InscricaoMunicipal>{$this->config->im}</InscricaoMunicipal>";
+        $pedido .= "<CodigoMunicipio>{$this->config->cmun}</CodigoMunicipio>";
+        $pedido .= "</IdentificacaoNfse>";
+        $pedido .= "<CodigoCancelamento>{$codigo}</CodigoCancelamento>";
+        $pedido .= "</InfPedidoCancelamento>";
         $pedido .= "</Pedido>";
-
         $signed = $this->sign($pedido, 'InfPedidoCancelamento', '');
-
         $content .= "<CancelarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
         $content .= $signed;
         $content .= "</CancelarNfseEnvio>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -93,14 +88,11 @@ class Tools extends BaseTools
     {
         $content = '';
         $operation = 'ConsultarLoteRps';
-
         $content .= "<ConsultarLoteRpsEnvio xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     $this->prestador;
-        $content .=     "<Protocolo>{$protocolo}</Protocolo>";
+        $content .= $this->prestador;
+        $content .= "<Protocolo>{$protocolo}</Protocolo>";
         $content .= "</ConsultarLoteRpsEnvio>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -123,14 +115,11 @@ class Tools extends BaseTools
     {
         $content = '';
         $operation = 'ConsultarSituacaoLoteRps';
-
         $content .= "<ConsultarSituacaoLoteRpsEnvio xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     $this->prestador;
-        $content .=     "<Protocolo>{$protocolo}</Protocolo>";
+        $content .= $this->prestador;
+        $content .= "<Protocolo>{$protocolo}</Protocolo>";
         $content .= "</ConsultarSituacaoLoteRpsEnvio>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -147,46 +136,35 @@ class Tools extends BaseTools
     {
         $content = '';
         $operation = 'ConsultarNfse';
-
         $content .= "<ConsultarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     $this->prestador;
-
+        $content .= $this->prestador;
         if (isset($filtro->numeroNfse) && $filtro->numeroNfse !== null) {
-            $content .=     "<NumeroNfse>{$filtro->numeroNfse}</NumeroNfse>";
+            $content .= "<NumeroNfse>{$filtro->numeroNfse}</NumeroNfse>";
         }
-
         $content .= "<PeriodoEmissao>";
-        $content .=     "<DataInicial>{$filtro->dataInicial}</DataInicial>";
-        $content .=     "<DataFinal>{$filtro->dataFinal}</DataFinal>";
+        $content .= "<DataInicial>{$filtro->dataInicial}</DataInicial>";
+        $content .= "<DataFinal>{$filtro->dataFinal}</DataFinal>";
         $content .= "</PeriodoEmissao>";
-
         if (isset($filtro->tomador) && $filtro->tomador !== null) {
             if ($filtro->tomador->cnpj !== null || $filtro->tomador->cpf !== null) {
                 $content .= "<Tomador>";
                 $content .= "<CpfCnpj>";
-
                 if (isset($filtro->tomador->cnpj)) {
                     $content .= "<Cnpj>{$filtro->tomador->cnpj}</Cnpj>";
                 } else {
                     $content .= "<Cpf>{$filtro->tomador->cpf}</Cpf>";
                 }
-
                 $content .= "</CpfCnpj>";
-
                 if (isset($filtro->tomador->InscricaoMunicipal) && $filtro->tomador->InscricaoMunicipal !== null) {
                     $content .= "<InscricaoMunicipal>";
                     $content .= $filtro->tomador->InscricaoMunicipal;
                     $content .= "</InscricaoMunicipal>";
                 }
-
                 $content .= "</Tomador>";
             }
         }
-
         $content .= "</ConsultarNfseEnvio>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -195,7 +173,7 @@ class Tools extends BaseTools
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfsePorRps
      *
      * @param  integer $numero
-     * @param  string  $serie
+     * @param  string $serie
      * @param  integer $tipo
      * @return string
      */
@@ -205,16 +183,14 @@ class Tools extends BaseTools
         $operation = "ConsultarNfsePorRps";
 
         $content .= "<ConsultarNfseRpsEnvio xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<IdentificacaoRps>";
-        $content .=         "<Numero>{$numero}</Numero>";
-        $content .=         "<Serie>{$serie}</Serie>";
-        $content .=         "<Tipo>{$tipo}</Tipo>";
-        $content .=     "</IdentificacaoRps>";
-        $content .=     $this->prestador;
+        $content .= "<IdentificacaoRps>";
+        $content .= "<Numero>{$numero}</Numero>";
+        $content .= "<Serie>{$serie}</Serie>";
+        $content .= "<Tipo>{$tipo}</Tipo>";
+        $content .= "</IdentificacaoRps>";
+        $content .= $this->prestador;
         $content .= "</ConsultarNfseRpsEnvio>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -222,7 +198,7 @@ class Tools extends BaseTools
      * Envia LOTE de RPS para emissão de NFSe (ASSINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarLoteRps
      *
-     * @param  array  $arps Array contendo de 1 a 50 RPS::class
+     * @param  array $arps Array contendo de 1 a 50 RPS::class
      * @param  string $lote Número do lote de envio
      * @return string
      * @throws \Exception
@@ -231,35 +207,30 @@ class Tools extends BaseTools
     {
         $content = $listaRpsContent = '';
         $operation = 'RecepcionarLoteRps';
-
         $countRps = count($arps);
         if ($countRps > 50) {
             throw new \Exception('O limite é de 50 RPS por lote enviado.');
         }
-
         foreach ($arps as $rps) {
             $xml = $rps->render();
             $xmlsigned = $this->sign($xml, 'InfRps', '');
             $listaRpsContent .= $xmlsigned;
         }
-
         $content .= "<EnviarLoteRpsEnvio xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<LoteRps>";
-        $content .=         "<NumeroLote>{$lote}</NumeroLote>";
-        $content .=         "<Cnpj>{$this->config->cnpj}</Cnpj>";
-        $content .=         "<InscricaoMunicipal>";
-        $content .=         $this->config->im;
-        $content .=         "</InscricaoMunicipal>";
-        $content .=         "<QuantidadeRps>{$countRps}</QuantidadeRps>";
-        $content .=         "<ListaRps>";
-        $content .=             $listaRpsContent;
-        $content .=         "</ListaRps>";
-        $content .=     "</LoteRps>";
+        $content .= "<LoteRps>";
+        $content .= "<NumeroLote>{$lote}</NumeroLote>";
+        $content .= "<Cnpj>{$this->config->cnpj}</Cnpj>";
+        $content .= "<InscricaoMunicipal>";
+        $content .= $this->config->im;
+        $content .= "</InscricaoMunicipal>";
+        $content .= "<QuantidadeRps>{$countRps}</QuantidadeRps>";
+        $content .= "<ListaRps>";
+        $content .= $listaRpsContent;
+        $content .= "</ListaRps>";
+        $content .= "</LoteRps>";
         $content .= "</EnviarLoteRpsEnvio>";
-
         $content = $this->sign($content, 'LoteRps', '');
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -275,14 +246,11 @@ class Tools extends BaseTools
     {
         $content = '';
         $operation = 'BuscarUsuario';
-
         $content .= "<BuscarUsuario xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<imu>{$imu}</imu>";
-        $content .=     "<cnpj>{$cnpj}</cnpj>";
+        $content .= "<imu>{$imu}</imu>";
+        $content .= "<cnpj>{$cnpj}</cnpj>";
         $content .= "</BuscarUsuario>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -302,14 +270,11 @@ class Tools extends BaseTools
     {
         $content = '';
         $operation = 'RecepcionarXml';
-
         $content .= "<RecepcionarXml xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<metodo>{$metodo}</metodo>";
-        $content .=     "<xml>{$xml}</xml>";
+        $content .= "<metodo>{$metodo}</metodo>";
+        $content .= "<xml>{$xml}</xml>";
         $content .= "</RecepcionarXml>";
-
         Validator::isValid($content, $this->xsdpath);
-
         return $this->send($content, $operation);
     }
 
@@ -325,11 +290,9 @@ class Tools extends BaseTools
     {
         $content = '';
         $operation = 'ValidarXml';
-
         $content .= "<ValidarXml xmlns=\"{$this->wsobj->msgns}\">";
-        $content .=     "<xml>$xml</xml>";
+        $content .= "<xml>$xml</xml>";
         $content .= "</ValidarXml>";
-
         return $this->send($content, $operation);
     }
 }

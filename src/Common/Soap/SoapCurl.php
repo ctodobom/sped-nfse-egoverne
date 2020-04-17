@@ -60,7 +60,7 @@ class SoapCurl extends SoapBase implements SoapInterface
             $this->setCurlProxy($oCurl);
             curl_setopt($oCurl, CURLOPT_URL, $url);
             curl_setopt($oCurl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-            curl_setopt($oCurl, CURLOPT_CONNECTTIMEOUT, $this->soaptimeout);
+            curl_setopt($oCurl, CURLOPT_CONNECTTIMEOUT, $this->soaptimeout + 20);
             curl_setopt($oCurl, CURLOPT_TIMEOUT, $this->soaptimeout + 20);
             curl_setopt($oCurl, CURLOPT_HEADER, 1);
             curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, 0);

@@ -13,18 +13,18 @@ $std->IdentificacaoRps->Serie = '1'; //BH deve ser string numerico
 $std->IdentificacaoRps->Tipo = 1; //1 - RPS 2-Nota Fiscal Conjugada (Mista) 3-Cupom
 $std->DataEmissao = '2018-10-31T12:33:22';
 $std->NaturezaOperacao = 1; // 1 – Tributação no município
-                            // 2 - Tributação fora do município
-                            // 3 - Isenção
-                            // 4 - Imune
-                            // 5 – Exigibilidade suspensa por decisão judicial
-                            // 6 – Exigibilidade suspensa por procedimento administrativo
+// 2 - Tributação fora do município
+// 3 - Isenção
+// 4 - Imune
+// 5 – Exigibilidade suspensa por decisão judicial
+// 6 – Exigibilidade suspensa por procedimento administrativo
 
 $std->RegimeEspecialTributacao = 1;    // 1 – Microempresa municipal
-                                       // 2 - Estimativa
-                                       // 3 – Sociedade de profissionais
-                                       // 4 – Cooperativa
-                                       // 5 – MEI – Simples Nacional
-                                       // 6 – ME EPP – Simples Nacional
+// 2 - Estimativa
+// 3 – Sociedade de profissionais
+// 4 – Cooperativa
+// 5 – MEI – Simples Nacional
+// 6 – ME EPP – Simples Nacional
 
 $std->OptanteSimplesNacional = 1; //1 - SIM 2 - Não
 $std->IncentivadorCultural = 2; //1 - SIM 2 - Não

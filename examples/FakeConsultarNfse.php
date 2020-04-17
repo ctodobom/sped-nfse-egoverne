@@ -11,42 +11,44 @@ use NFePHP\NFSeEGoverne\Common\FakePretty;
 try {
 
     $config = [
-        'cnpj' => '99999999000191',
-        'im' => '1733160024',
+        'cnpj' => '12371536000100',
+        'im' => '170606466257',
         'cmun' => '4106902',
         'razao' => 'Empresa Test Ltda',
-        'tpamb' => 2
+        'tpamb' => 1
     ];
 
     $configJson = json_encode($config);
 
-    $content = file_get_contents('expired_certificate.pfx');
-    $password = 'associacao';
+    $content = file_get_contents('C:\Users\Cleiton\Downloads\nfse\curitiba\cert2.pfx');
+    $password = 'ian2711';
     $cert = Certificate::readPfx($content, $password);
 
     $soap = new SoapFake();
-    $soap->disableCertValidation(true);
+    //$soap->disableCertValidation(true);
 
     $tools = new Tools($configJson, $cert);
-    $tools->loadSoapClass($soap);
+    //$tools->loadSoapClass($soap);
 
     //Campos obrigatórios
     $filtro = new stdClass();
-    $filtro->dataInicial = '2018-01-01';
-    $filtro->dataFinal = '2018-01-31';
+    $filtro->dataInicial = '2020-01-01';
+    $filtro->dataFinal = '2020-01-30';
 
     //Opcional
-    $filtro->numeroNfse = 5555;
+    //$filtro->numeroNfse = 5555;
 
     //Opcional
-    $filtro->tomador = new stdClass();
-    $filtro->tomador->cpf = null;
-    $filtro->tomador->cnpj = '12345678901234';
-    $filtro->tomador->inscricaoMunicipal = null;
+    //$filtro->tomador = new stdClass();
+    //$filtro->tomador->cpf = null;
+    //$filtro->tomador->cnpj = '12345678901234';
+    //$filtro->tomador->inscricaoMunicipal = null;
 
     $response = $tools->consultarNfse($filtro);
+    header("Content-type: text/plain");
+    echo $response;
 
-    echo FakePretty::prettyPrint($response, '');
+    //echo FakePretty::prettyPrint($response, '');
 } catch (\Exception $e) {
     echo $e->getMessage();
 }
