@@ -34,7 +34,10 @@ class Factory
      * @var DOMNode
      */
     protected $rps;
-
+    /**
+     * @var \stdClass
+     */
+    protected $config;
     /**
      * Constructor
      * @param stdClass $std
@@ -47,6 +50,15 @@ class Factory
         $this->dom->preserveWhiteSpace = false;
         $this->dom->formatOutput = false;
         $this->rps = $this->dom->createElement('Rps');
+    }
+
+    /**
+     * Add config
+     * @param \stdClass $config
+     */
+    public function addConfig($config)
+    {
+        $this->config = $config;
     }
 
     /**
@@ -389,30 +401,29 @@ class Factory
      */
     protected function addPrestador(&$parent)
     {
-        if (!isset($this->std->prestador)) {
+        if (!isset($this->config)) {
             return;
         }
-        $pre = $this->std->prestador;
         $node = $this->dom->createElement('Prestador');
-        if (isset($pre->cnpj)) {
+        if (isset($this->config->cnpj)) {
             $this->dom->addChild(
                 $node,
                 "Cnpj",
-                isset($pre->cnpj) ? $pre->cnpj : null,
+                isset($this->config->cnpj) ? $this->config->cnpj : null,
                 false
             );
         } else {
             $this->dom->addChild(
                 $node,
                 "Cpf",
-                isset($pre->cpf) ? $pre->cpf : null,
+                isset($this->config->cpf) ? $this->config->cpf : null,
                 false
             );
         }
         $this->dom->addChild(
             $node,
             "InscricaoMunicipal",
-            isset($pre->inscricaomunicipal) ? $pre->inscricaomunicipal : null,
+            isset($this->config->im) ? $this->config->im : null,
             false
         );
         $parent->appendChild($node);

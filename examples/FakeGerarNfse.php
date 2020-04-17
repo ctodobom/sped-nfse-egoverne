@@ -12,22 +12,24 @@ use NFePHP\NFSeEGoverne\Rps;
 try {
 
     $config = [
-        'cnpj' => '12371536000100',
-        'im' => '170606466257',
-        'cmun' => '4106902',
+        'cnpj' => '99999999000191',
+        'im' => '1733160024',
+        'cmun' => '4314902',
         'razao' => 'Empresa Test Ltda',
-        'tpamb' => 1
+        'tpamb' => 2
     ];
 
-    $content = file_get_contents('C:\Users\Cleiton\Downloads\nfse\curitiba\certificado.pfx');
-    $password = 'ian2711';
+    $configJson = json_encode($config);
+
+    $content = file_get_contents('expired_certificate.pfx');
+    $password = 'associacao';
     $cert = Certificate::readPfx($content, $password);
 
     $soap = new SoapFake();
     $soap->disableCertValidation(true);
 
     $tools = new Tools(json_encode($config), $cert);
-    //$tools->loadSoapClass($soap);
+    $tools->loadSoapClass($soap);
 
     // Modelo Empresa de Curitiba/PR
     $std = new \stdClass();
@@ -114,10 +116,8 @@ try {
     $response = $tools->recepcionarLoteRps([$rps], $lote);
 
     $response = $tools->consultarNfse($filtro);
-    header("Content-type: text/plain");
-    echo $response;
 
-
+    echo FakePretty::prettyPrint($response, '');
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

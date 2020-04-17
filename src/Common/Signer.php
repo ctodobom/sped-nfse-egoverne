@@ -3,7 +3,7 @@
 namespace NFePHP\NFSeEGoverne\Common;
 
 /**
- * Class for signing XML in Nacional Standard NFSe
+ * Class for signing XML in EGoverne Standard NFSe
  *
  * @category  NFePHP
  * @package   NFePHP\NFSeEGoverne

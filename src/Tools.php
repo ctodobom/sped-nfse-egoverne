@@ -3,7 +3,7 @@
 namespace NFePHP\NFSeEGoverne;
 
 /**
- * Class for comunications with NFSe webserver in Nacional Standard
+ * Class for comunications with NFSe webserver in EGoverne Standard
  *
  * @category  NFePHP
  * @package   NFePHP\NFSeEGoverne
@@ -212,6 +212,9 @@ class Tools extends BaseTools
             throw new \Exception('O limite é de 50 RPS por lote enviado.');
         }
         foreach ($arps as $rps) {
+            if (!$rps->hasConfig()) {
+                $rps->config($this->config);
+            }
             $xml = $rps->render();
             $xmlsigned = $this->sign($xml, 'InfRps', '');
             $listaRpsContent .= $xmlsigned;

@@ -11,24 +11,24 @@ use NFePHP\NFSeEGoverne\Common\FakePretty;
 try {
 
     $config = [
-        'cnpj' => '12371536000100',
-        'im' => '170606466257',
-        'cmun' => '4106902',
+        'cnpj' => '99999999000191',
+        'im' => '1733160024',
+        'cmun' => '4314902',
         'razao' => 'Empresa Test Ltda',
-        'tpamb' => 1
+        'tpamb' => 2
     ];
 
     $configJson = json_encode($config);
 
-    $content = file_get_contents('C:\Users\Cleiton\Downloads\nfse\curitiba\cert2.pfx');
-    $password = 'ian2711';
+    $content = file_get_contents('expired_certificate.pfx');
+    $password = 'associacao';
     $cert = Certificate::readPfx($content, $password);
 
     $soap = new SoapFake();
-    //$soap->disableCertValidation(true);
+    $soap->disableCertValidation(true);
 
     $tools = new Tools($configJson, $cert);
-    //$tools->loadSoapClass($soap);
+    $tools->loadSoapClass($soap);
 
     //Campos obrigatórios
     $filtro = new stdClass();
@@ -45,10 +45,8 @@ try {
     //$filtro->tomador->inscricaoMunicipal = null;
 
     $response = $tools->consultarNfse($filtro);
-    header("Content-type: text/plain");
-    echo $response;
 
-    //echo FakePretty::prettyPrint($response, '');
+    echo FakePretty::prettyPrint($response, '');
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

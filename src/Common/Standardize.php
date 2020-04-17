@@ -41,15 +41,12 @@ class Standardize
         'ConsultarNfseFaixaEnvio',
         'ConsultarNfseRpsEnvio',
         'EnviarLoteRpsEnvio',
-        'GerarNfseEnvio',
-        'CancelarNfseResposta',
-        'ConsultarLoteRpsResposta',
-        'ConsultarNfseResposta',
-        'ConsultarNfseFaixaResposta',
-        'ConsultarNfseRpsResposta',
-        'EnviarLoteRpsResposta',
-        'GerarNfseEnvio',
-        'GerarNfseResposta',
+        'CancelarNfseResult',
+        'ConsultarLoteRpsResult',
+        'ConsultarNfseResult',
+        'CancelarLoteNfseResult',
+        'ConsultarNfsePorRpsResult',
+        'RecepcionarLoteRpsResult',
         'RPS'
     ];
 
@@ -85,7 +82,7 @@ class Standardize
             }
         }
         throw new InvalidArgumentException(
-            "Este xml não pertence ao projeto NFSe Nacional."
+            "Este xml não pertence ao projeto NFSe EGoverne."
         );
     }
 

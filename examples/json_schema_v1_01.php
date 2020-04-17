@@ -121,8 +121,8 @@ if ($jsonValidator->isValid()) {
     die;
 }
 //salva se sucesso
-// /home/u756270672/domains/fdc.procyon.com.br/public_html/wss/NFe/vendor/nfephp-org/sped-nfse-nacional/storage
-$dirdest = "vendor/nfephp-org/sped-nfse-nacional/storage/jsonSchemes/v$version/";
+// /home/u756270672/domains/fdc.procyon.com.br/public_html/wss/NFe/vendor/nfephp-org/sped-nfse-egoverne/storage
+$dirdest = "vendor/nfephp-org/sped-nfse-egoverne/storage/jsonSchemes/v$version/";
 mkdirs($dirdest);
 file_put_contents($dirdest."rps.schema", $jsonSchema);
 
