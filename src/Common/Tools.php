@@ -170,5 +170,4 @@ class Tools
 
         return $dom->saveXML($dom->documentElement);
     }
-
 }
