@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <RecepcionarLoteRpsResponse xmlns="http://www.e-governeapps2.com.br/">
+      <RecepcionarLoteRpsResult>
+        <NumeroLote>unsignedLong</NumeroLote>
+        <DataRecebimento>dateTime</DataRecebimento>
+        <Protocolo>string</Protocolo>
+        <ListaMensagemRetorno>
+          <MensagemRetorno />
+          <MensagemRetorno />
+        </ListaMensagemRetorno>
+      </RecepcionarLoteRpsResult>
+    </RecepcionarLoteRpsResponse>
+  </soap:Body>
+</soap:Envelope>

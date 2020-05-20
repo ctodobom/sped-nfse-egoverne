@@ -116,10 +116,13 @@ try {
     $std->construcaocivil->codigoobra = '1234';
     $std->construcaocivil->art = '1234';
 
-    $arps[] = new Rps($std);
-
-    $lote = '123456';
-    $response = $tools->recepcionarLoteRps($arps, $lote);
+    // Gerando o XML do RPS
+    $rps = new Rps($std);
+    $rps->config(json_decode($configJson));
+    $xml = $rps->render();
+    $xml = $tools->sign($xml, 'InfRps', '');
+    
+    $response = $tools->validarXml($xml);
 
     echo FakePretty::prettyPrint($response, '');
 } catch (\Exception $e) {

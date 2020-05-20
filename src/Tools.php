@@ -37,19 +37,16 @@ class Tools extends BaseTools
     {
         parent::__construct($config, $cert);
         $path = realpath(__DIR__ . '/../storage/schemes');
-        if (file_exists($this->xsdpath = $path . '/' . $this->config->cmun . '.xsd')) {
-            $this->xsdpath = $path . '/' . $this->config->cmun . '.xsd';
-        } else {
-            $this->xsdpath = $path . '/nfse_v20_08_2015.xsd';
-        }
+        $this->xsdpath = $path . '/nfse.xsd';
     }
 
     /**
      * Solicita o cancelamento de NFSe (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=CancelarNfse
      *
-     * @param  int $numero
-     * @param  int $codigo
+     * @param int $numero
+     * @param int $codigo
+     * 
      * @return string
      */
     public function cancelarNfse($numero, $codigo = self::ERRO_EMISSAO)
@@ -81,7 +78,8 @@ class Tools extends BaseTools
      * Que deve ser usado quando temos mais de um RPS sendo enviado por vez.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
      *
-     * @param  string $protocolo
+     * @param string $protocolo
+     * 
      * @return string
      */
     public function consultarLoteRps($protocolo)
@@ -108,7 +106,8 @@ class Tools extends BaseTools
      * 4 – Processado com Sucesso
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarSituacaoLoteRps
      *
-     * @param  string $protocolo
+     * @param string $protocolo
+     * 
      * @return string
      */
     public function consultarSituacaoLoteRps($protocolo)
@@ -127,9 +126,8 @@ class Tools extends BaseTools
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
      *
-     * @param  $filtro
-     *        #Obrigatorio (dataInicial e dataFinal)
-     *        #Opcional (numeroNfse, tomador)
+     * @param  \stdClass $filtro
+     *        
      * @return string
      */
     public function consultarNfse($filtro)
@@ -138,30 +136,51 @@ class Tools extends BaseTools
         $operation = 'ConsultarNfse';
         $content .= "<ConsultarNfseEnvio xmlns=\"{$this->wsobj->msgns}\">";
         $content .= $this->prestador;
-        if (isset($filtro->numeroNfse) && $filtro->numeroNfse !== null) {
+        if (!empty($filtro->numeroNfse)) {
             $content .= "<NumeroNfse>{$filtro->numeroNfse}</NumeroNfse>";
         }
-        $content .= "<PeriodoEmissao>";
-        $content .= "<DataInicial>{$filtro->dataInicial}</DataInicial>";
-        $content .= "<DataFinal>{$filtro->dataFinal}</DataFinal>";
-        $content .= "</PeriodoEmissao>";
-        if (isset($filtro->tomador) && $filtro->tomador !== null) {
-            if ($filtro->tomador->cnpj !== null || $filtro->tomador->cpf !== null) {
-                $content .= "<Tomador>";
+        if (! empty($filtro->dataInicial) && ! empty($filtro->dataFinal)) {
+            $content .= "<PeriodoEmissao>";
+            $content .= "<DataInicial>{$filtro->dataInicial}</DataInicial>";
+            $content .= "<DataFinal>{$filtro->dataFinal}</DataFinal>";
+            $content .= "</PeriodoEmissao>";
+        }    
+        if (! empty($filtro->tomador)) {
+            $content .= "<Tomador>";
+            if (! empty($filtro->tomador->cnpj) || ! empty($filtro->tomador->cpf)) {
                 $content .= "<CpfCnpj>";
-                if (isset($filtro->tomador->cnpj)) {
+                if (! empty($filtro->tomador->cnpj)) {
                     $content .= "<Cnpj>{$filtro->tomador->cnpj}</Cnpj>";
                 } else {
                     $content .= "<Cpf>{$filtro->tomador->cpf}</Cpf>";
                 }
                 $content .= "</CpfCnpj>";
-                if (isset($filtro->tomador->InscricaoMunicipal) && $filtro->tomador->InscricaoMunicipal !== null) {
-                    $content .= "<InscricaoMunicipal>";
-                    $content .= $filtro->tomador->InscricaoMunicipal;
-                    $content .= "</InscricaoMunicipal>";
-                }
-                $content .= "</Tomador>";
+            }    
+            if (! empty($filtro->tomador->InscricaoMunicipal)) {
+                $content .= "<InscricaoMunicipal>";
+                $content .= $filtro->tomador->InscricaoMunicipal;
+                $content .= "</InscricaoMunicipal>";
             }
+            $content .= "</Tomador>";
+        }
+        if (! empty($filtro->intermediario)) {
+            $content .= "<IntermediarioServico>";
+            $content .= "<RazaoSocial>{$filtro->intermediario->razaoSocial}</RazaoSocial>";
+            if (! empty($filtro->intermediario->cnpj) || ! empty($filtro->intermediario->cpf)) {
+                $content .= "<CpfCnpj>";
+                if (! empty($filtro->intermediario->cnpj)) {
+                    $content .= "<Cnpj>{$filtro->intermediario->cnpj}</Cnpj>";
+                } else {
+                    $content .= "<Cpf>{$filtro->intermediario->cpf}</Cpf>";
+                }
+                $content .= "</CpfCnpj>";
+            }
+            if (! empty($filtro->intermediario->InscricaoMunicipal)) {
+                $content .= "<InscricaoMunicipal>";
+                $content .= $filtro->intermediario->InscricaoMunicipal;
+                $content .= "</InscricaoMunicipal>";
+            }
+            $content .= "</IntermediarioServico>";
         }
         $content .= "</ConsultarNfseEnvio>";
         Validator::isValid($content, $this->xsdpath);
@@ -172,9 +191,10 @@ class Tools extends BaseTools
      * Consulta NFSe por RPS (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfsePorRps
      *
-     * @param  integer $numero
-     * @param  string $serie
-     * @param  integer $tipo
+     * @param string $numero
+     * @param string $serie
+     * @param integer $tipo
+     * 
      * @return string
      */
     public function consultarNfsePorRps($numero, $serie, $tipo)
@@ -193,14 +213,36 @@ class Tools extends BaseTools
         Validator::isValid($content, $this->xsdpath);
         return $this->send($content, $operation);
     }
+    
+    /**
+     * Buscar Usuario (SINCRONO)
+     * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=BuscarUsuario
+     *
+     * @param  string $cnpj
+     * @param  string $im
+     * 
+     * @return string
+     */
+    public function buscarUsuario($cnpj, $im)
+    {
+        $content = '';
+        $operation = 'BuscarUsuario';
+        $content .= "<BuscarUsuario xmlns=\"{$this->wsobj->msgns}\">";
+        $content .= "<imu>{$im}</imu>";
+        $content .= "<cnpj>{$cnpj}</cnpj>";
+        $content .= "</BuscarUsuario>";
+        return $this->send($content, $operation);
+    }
 
     /**
-     * Envia LOTE de RPS para emissão de NFSe (ASSINCRONO)
+     * Envia LOTE de RPS para emissão de NFSe (ASSINCRONO) ou (SINCRONO) depende do enableSynchronous()
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarLoteRps
      *
      * @param  array $arps Array contendo de 1 a 50 RPS::class
      * @param  string $lote Número do lote de envio
+     * 
      * @return string
+     * 
      * @throws \Exception
      */
     public function recepcionarLoteRps($arps, $lote)
@@ -234,26 +276,9 @@ class Tools extends BaseTools
         $content .= "</EnviarLoteRpsEnvio>";
         $content = $this->sign($content, 'LoteRps', '');
         Validator::isValid($content, $this->xsdpath);
-        return $this->send($content, $operation);
-    }
-
-    /**
-     * Buscar Usuario (SINCRONO)
-     * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=BuscarUsuario
-     *
-     * @param  string $cnpj
-     * @param  string $imu
-     * @return string
-     */
-    public function buscarUsuario($cnpj, $imu)
-    {
-        $content = '';
-        $operation = 'BuscarUsuario';
-        $content .= "<BuscarUsuario xmlns=\"{$this->wsobj->msgns}\">";
-        $content .= "<imu>{$imu}</imu>";
-        $content .= "<cnpj>{$cnpj}</cnpj>";
-        $content .= "</BuscarUsuario>";
-        Validator::isValid($content, $this->xsdpath);
+        if ($this->enableSync) {
+            return $this->recepcionarXml($operation, $content);
+        }
         return $this->send($content, $operation);
     }
 
@@ -265,8 +290,9 @@ class Tools extends BaseTools
      * e o Parâmetro (xml) deve ser a mensagem xml a ser enviada.
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarXml
      *
-     * @param  string $metodo
-     * @param  string $xml
+     * @param string $metodo
+     * @param string $xml
+     * 
      * @return string
      */
     public function recepcionarXml($metodo, $xml)
@@ -275,9 +301,8 @@ class Tools extends BaseTools
         $operation = 'RecepcionarXml';
         $content .= "<RecepcionarXml xmlns=\"{$this->wsobj->msgns}\">";
         $content .= "<metodo>{$metodo}</metodo>";
-        $content .= "<xml>{$xml}</xml>";
+        $content .= "<xml>" . htmlentities($xml) . "</xml>";
         $content .= "</RecepcionarXml>";
-        Validator::isValid($content, $this->xsdpath);
         return $this->send($content, $operation);
     }
 
@@ -287,6 +312,7 @@ class Tools extends BaseTools
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ValidarXml
      *
      * @param  string $xml
+     * 
      * @return string
      */
     public function validarXml($xml)
@@ -294,7 +320,7 @@ class Tools extends BaseTools
         $content = '';
         $operation = 'ValidarXml';
         $content .= "<ValidarXml xmlns=\"{$this->wsobj->msgns}\">";
-        $content .= "<xml>$xml</xml>";
+        $content .= "<xml>" . htmlentities($xml) . "</xml>";
         $content .= "</ValidarXml>";
         return $this->send($content, $operation);
     }

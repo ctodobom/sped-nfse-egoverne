@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ValidarXmlResponse xmlns="http://www.e-governeapps2.com.br/">
+      <ValidarXmlResult>
+        <MensagemRetorno>
+          <tcMensagemRetorno>
+            <Codigo>string</Codigo>
+            <Mensagem>string</Mensagem>
+            <Correcao>string</Correcao>
+          </tcMensagemRetorno>
+          <tcMensagemRetorno>
+            <Codigo>string</Codigo>
+            <Mensagem>string</Mensagem>
+            <Correcao>string</Correcao>
+          </tcMensagemRetorno>
+        </MensagemRetorno>
+      </ValidarXmlResult>
+    </ValidarXmlResponse>
+  </soap:Body>
+</soap:Envelope>

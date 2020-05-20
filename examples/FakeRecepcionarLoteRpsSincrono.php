@@ -31,7 +31,7 @@ try {
 
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
-    
+    $tools->enableSynchronous(true);
     $arps = [];
 
     $std = new \stdClass();

@@ -76,6 +76,13 @@
 			<xsd:minInclusive value="0"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="tsNumeroDeducao">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="19"/>
+			<xsd:fractionDigits value="0" fixed="true"/>
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	<xsd:simpleType name="tsItemListaServico">
 		<xsd:restriction base="xsd:string">
 			<xsd:maxLength value="5"/>
@@ -332,6 +339,7 @@
         <xsd:sequence>
             <xsd:element name="ValorServicos" type="tsValor" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="ValorDeducoes" type="tsValor" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="NumeroDeducao" type="tsNumeroDeducao" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="ValorPis" type="tsValor" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="ValorCofins" type="tsValor" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="ValorInss" type="tsValor" minOccurs="0" maxOccurs="1"/>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <RecepcionarLoteRps xmlns="http://www.e-governeapps2.com.br/">
+      <EnviarLoteRpsEnvio>
+        <LoteRps>
+          <NumeroLote>unsignedLong</NumeroLote>
+          <Cnpj>string</Cnpj>
+          <InscricaoMunicipal>string</InscricaoMunicipal>
+          <QuantidadeRps>int</QuantidadeRps>
+          <ListaRps>
+            <Rps xsi:nil="true" />
+            <Rps xsi:nil="true" />
+          </ListaRps>
+        </LoteRps>
+        <Signature Id="ID">
+          <SignedInfo Id="ID" xmlns="http://www.w3.org/2000/09/xmldsig#">
+            <CanonicalizationMethod xsi:nil="true" />
+            <SignatureMethod xsi:nil="true" />
+            <Reference xsi:nil="true" />
+            <Reference xsi:nil="true" />
+          </SignedInfo>
+          <SignatureValue Id="ID" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+          <KeyInfo Id="ID" xmlns="http://www.w3.org/2000/09/xmldsig#" />
+          <Object Id="ID" MimeType="string" Encoding="anyURI" xmlns="http://www.w3.org/2000/09/xmldsig#">xml</Object>
+          <Object Id="ID" MimeType="string" Encoding="anyURI" xmlns="http://www.w3.org/2000/09/xmldsig#">xml</Object>
+        </Signature>
+      </EnviarLoteRpsEnvio>
+    </RecepcionarLoteRps>
+  </soap:Body>
+</soap:Envelope>
