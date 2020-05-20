@@ -13,7 +13,7 @@ try {
     $config = [
         'cnpj' => '99999999000191',
         'im' => '1733160024',
-        'cmun' => '4314902',
+        'cmun' => '4106902',
         'razao' => 'Empresa Test Ltda',
         'tpamb' => 2
     ];
@@ -43,6 +43,14 @@ try {
     //$filtro->tomador->cpf = null;
     //$filtro->tomador->cnpj = '12345678901234';
     //$filtro->tomador->inscricaoMunicipal = null;
+    
+    //Opcional
+    //$filtro->intermediario = new stdClass();
+    //$filtro->intermediario->razaoSocial = null;
+    //$filtro->intermediario->cpf = null;
+    //$filtro->intermediario->cnpj = '12345678901234';
+    //$filtro->intermediario->inscricaoMunicipal = null;
+    
 
     $response = $tools->consultarNfse($filtro);
 

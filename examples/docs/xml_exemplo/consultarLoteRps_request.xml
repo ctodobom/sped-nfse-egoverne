@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ConsultarLoteRps xmlns="http://www.e-governeapps2.com.br/">
+      <ConsultarLoteRpsEnvio>
+        <Prestador>
+          <Cnpj>string</Cnpj>
+          <InscricaoMunicipal>string</InscricaoMunicipal>
+        </Prestador>
+        <Protocolo>string</Protocolo>
+      </ConsultarLoteRpsEnvio>
+    </ConsultarLoteRps>
+  </soap:Body>
+</soap:Envelope>

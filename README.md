@@ -30,6 +30,17 @@ Não deixe de se cadastrar no [grupo de discussão do NFePHP](http://groups.goog
 |:---:|:---|:---:|:---:|
 |1|Curitiba|PR|4106902|
 
+## Detalhes
+
+- Tipo - o tipo aceito é 1-RPS
+- RegimeEspecialTributacao - não é utilizado
+- IssRetido - 1-SIM, ISS retido na fonte, 2-NÃO, ISS NÃO retido na fonte. Obs.: quando for 1, os campos ValorISS e ValorIssRetido tem que ser iguais.
+- Tomador, caso informe deve declarar CPF ou CNPJ, se informar a tag tomador sem CNPJ/CPF, então a Razão deve ser 'Tomador Não Identificado'
+- TomadorEndereço - O endereço será obrigatório quando existir um CNPJ informado.
+
+## Documentos da Prefeitura
+
+vide [DOCS](examples/docs/)
 
 ## Dependências
 

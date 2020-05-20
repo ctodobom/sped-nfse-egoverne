@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ConsultarNfsePorRpsResponse xmlns="http://www.e-governeapps2.com.br/">
+      <ConsultarNfsePorRpsResult>
+        <CompNfse>
+          <Nfse>
+            <InfNfse xsi:nil="true" />
+            <Signature xsi:nil="true" />
+          </Nfse>
+          <NfseCancelamento>
+            <Confirmacao xsi:nil="true" />
+            <Signature xsi:nil="true" />
+          </NfseCancelamento>
+          <NfseSubstituicao>
+            <SubstituicaoNfse xsi:nil="true" />
+            <Signature xsi:nil="true" />
+          </NfseSubstituicao>
+        </CompNfse>
+        <ListaMensagemRetorno>
+          <MensagemRetorno />
+          <MensagemRetorno />
+        </ListaMensagemRetorno>
+      </ConsultarNfsePorRpsResult>
+    </ConsultarNfsePorRpsResponse>
+  </soap:Body>
+</soap:Envelope>

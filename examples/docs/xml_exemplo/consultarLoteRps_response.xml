@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ConsultarLoteRpsResponse xmlns="http://www.e-governeapps2.com.br/">
+      <ConsultarLoteRpsResult>
+        <ListaNfse>
+          <CompNfse>
+            <tcCompNfse xsi:nil="true" />
+            <tcCompNfse xsi:nil="true" />
+          </CompNfse>
+        </ListaNfse>
+        <ListaMensagemRetorno>
+          <MensagemRetorno />
+          <MensagemRetorno />
+        </ListaMensagemRetorno>
+      </ConsultarLoteRpsResult>
+    </ConsultarLoteRpsResponse>
+  </soap:Body>
+</soap:Envelope>

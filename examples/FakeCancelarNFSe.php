@@ -12,7 +12,7 @@ try {
     $config = [
         'cnpj' => '99999999000191',
         'im' => '1733160024',
-        'cmun' => '4314902', //ira determinar as urls e outros dados
+        'cmun' => '4106902', //ira determinar as urls e outros dados
         'razao' => 'Empresa Test Ltda',
         'tpamb' => 2 //1-producao, 2-homologacao
     ];
@@ -29,10 +29,9 @@ try {
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
-    $id = 'C201800000000001';
     $numero = '201800000000001';
 
-    $response = $tools->cancelarNfse($id, $numero, $tools::ERRO_EMISSAO);
+    $response = $tools->cancelarNfse($numero, $tools::ERRO_EMISSAO);
 
     echo FakePretty::prettyPrint($response, '');
 

@@ -24,14 +24,38 @@ use NFePHP\NFSeEGoverne\Common\Soap\SoapCurl;
 
 class Tools
 {
+    /**
+     * @var string
+     */
     public $lastRequest;
-
+    /**
+     * @var \stdClass
+     */
     protected $config;
+    /**
+     * @var type 
+     */
     protected $prestador;
+    /**
+     * @var \NFePHP\Common\Certificate
+     */
     protected $certificate;
+    /**
+     * @var \stdClass
+     */
     protected $wsobj;
+    /**
+     * @var \NFePHP\NFSeEGoverne\Common\Soap\SoapInterface
+     */
     protected $soap;
+    /**
+     * @var string
+     */
     protected $environment;
+    /**
+     * @var bool
+     */
+    protected $enableSync = false;
 
     /**
      * Constructor
@@ -48,6 +72,21 @@ class Tools
         if ($this->config->tpamb === 1) {
             $this->environment = 'producao';
         }
+    }
+    
+    /**
+     * Habilita ou desabilita o envio de RPS em modo SINCRONO
+     * 
+     * @param bool|null $flag
+     * 
+     * @return bool
+     */
+    public function enableSynchronous($flag = null)
+    {
+        if ($flag !== null) {  
+            return $this->enableSync = $flag;
+        }
+        return $this->enableSync;
     }
 
     /**

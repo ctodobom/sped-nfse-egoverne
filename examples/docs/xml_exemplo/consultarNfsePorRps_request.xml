@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ConsultarNfsePorRps xmlns="http://www.e-governeapps2.com.br/">
+      <ConsultarNfseRpsEnvio>
+        <IdentificacaoRps>
+          <Numero>unsignedLong</Numero>
+          <Serie>string</Serie>
+          <Tipo>unsignedByte</Tipo>
+        </IdentificacaoRps>
+        <Prestador>
+          <Cnpj>string</Cnpj>
+          <InscricaoMunicipal>string</InscricaoMunicipal>
+        </Prestador>
+      </ConsultarNfseRpsEnvio>
+    </ConsultarNfsePorRps>
+  </soap:Body>
+</soap:Envelope>

@@ -9,20 +9,18 @@ use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
 use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
-
-    // Teste em um ambiente real de produção
     $config = [
-        'cnpj' => '03677669000291',
-        'im' => '04068479',
+        'cnpj' => '99999999000191',
+        'im' => '1733160024',
         'cmun' => '4106902',
-        'razao' => 'OPEN POINT VOLVO',
-        'tpamb' => 1
+        'razao' => 'Empresa Test Ltda',
+        'tpamb' => 2
     ];
 
     $configJson = json_encode($config);
 
-    $content = file_get_contents('../../certs/03677669.pfx');
-    $password = '03677669';
+    $content = file_get_contents('expired_certificate.pfx');
+    $password = 'associacao';
     $cert = Certificate::readPfx($content, $password);
 
     $soap = new SoapFake();
@@ -31,11 +29,10 @@ try {
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
-    $numero = 27548;
-    $serie = 'RP';
-    $tipo = 1;
+    $cnpj = '99999999000191';
+    $im = '1733160024';
 
-    $response = $tools->consultarNfsePorRps($numero, $serie, $tipo);
+    $response = $tools->buscarUsuario($cnpj, $im);
 
     echo FakePretty::prettyPrint($response, '');
 

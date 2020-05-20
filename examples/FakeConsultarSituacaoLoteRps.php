@@ -9,7 +9,6 @@ use NFePHP\NFSeEGoverne\Common\Soap\SoapFake;
 use NFePHP\NFSeEGoverne\Common\FakePretty;
 
 try {
-
     $config = [
         'cnpj' => '99999999000191',
         'im' => '1733160024',
@@ -30,11 +29,9 @@ try {
     $tools = new Tools($configJson, $cert);
     $tools->loadSoapClass($soap);
 
-    $numero = "123456";
-    $serie = "1";
-    $tipo = 1;
+    $protocolo = 'ABCDE123456';
 
-    $response = $tools->consultarNfsePorRps($numero, $serie, $tipo);
+    $response = $tools->consultarSituacaoLoteRps($protocolo);
 
     echo FakePretty::prettyPrint($response, '');
 
