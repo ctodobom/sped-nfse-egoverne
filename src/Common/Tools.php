@@ -33,7 +33,7 @@ class Tools
      */
     protected $config;
     /**
-     * @var type 
+     * @var type
      */
     protected $prestador;
     /**
@@ -76,14 +76,14 @@ class Tools
     
     /**
      * Habilita ou desabilita o envio de RPS em modo SINCRONO
-     * 
+     *
      * @param bool|null $flag
-     * 
+     *
      * @return bool
      */
     public function enableSynchronous($flag = null)
     {
-        if ($flag !== null) {  
+        if ($flag !== null) {
             return $this->enableSync = $flag;
         }
         return $this->enableSync;
