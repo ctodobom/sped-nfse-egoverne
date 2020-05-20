@@ -42,6 +42,7 @@ class Rps implements RpsInterface
 
     /**
      * Constructor
+     * 
      * @param stdClass $rps
      */
     public function __construct(stdClass $rps = null)
@@ -52,6 +53,8 @@ class Rps implements RpsInterface
     /**
      * Add config
      * @param stdClass $config
+     * 
+     * @return void
      */
     public function config(\stdClass $config)
     {
@@ -60,6 +63,7 @@ class Rps implements RpsInterface
 
     /**
      * Config existe
+     * 
      * @return bool
      */
     public function hasConfig()
@@ -69,7 +73,9 @@ class Rps implements RpsInterface
 
     /**
      * Convert Rps::class data in XML
+     * 
      * @param stdClass $rps
+     * 
      * @return string
      */
     public function render(stdClass $rps = null)
@@ -84,13 +90,16 @@ class Rps implements RpsInterface
 
     /**
      * Inicialize properties and valid input
+     * 
      * @param stdClass $rps
+     * 
+     * @return void
      */
     private function init(stdClass $rps = null)
     {
         if (!empty($rps)) {
             $this->std = $this->propertiesToLower($rps);
-            $rps->version = empty($rps->version) ? '1.00' : $rps->version; 
+            $rps->version = empty($rps->version) ? '1.00' : $rps->version;
             $ver = str_replace('.', '_', $rps->version);
             $this->jsonschema = realpath("../storage/jsonSchemes/v$ver/rps.schema");
             $this->validInputData($this->std);
@@ -99,8 +108,10 @@ class Rps implements RpsInterface
 
     /**
      * Change properties names of stdClass to lower case
-     * @param stdClass $data
-     * @return stdClass
+     * 
+     * @param \stdClass $data
+     * 
+     * @return \stdClass
      */
     public static function propertiesToLower(stdClass $data)
     {
@@ -118,8 +129,11 @@ class Rps implements RpsInterface
 
     /**
      * Validation json data from json Schema
-     * @param stdClass $data
+     * 
+     * @param \stdClass $data
+     * 
      * @return boolean
+     * 
      * @throws \RuntimeException
      */
     protected function validInputData($data)

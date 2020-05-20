@@ -23,7 +23,10 @@ class Tools extends BaseTools
 {
     const ERRO_EMISSAO = 1;
     const SERVICO_NAO_CONCLUIDO = 2;
-
+    
+    /**
+     * @var string
+     */
     protected $xsdpath;
 
     /**
@@ -46,7 +49,7 @@ class Tools extends BaseTools
      *
      * @param int $numero
      * @param int $codigo
-     * 
+     *
      * @return string
      */
     public function cancelarNfse($numero, $codigo = self::ERRO_EMISSAO)
@@ -79,7 +82,7 @@ class Tools extends BaseTools
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarLoteRps
      *
      * @param string $protocolo
-     * 
+     *
      * @return string
      */
     public function consultarLoteRps($protocolo)
@@ -107,7 +110,7 @@ class Tools extends BaseTools
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarSituacaoLoteRps
      *
      * @param string $protocolo
-     * 
+     *
      * @return string
      */
     public function consultarSituacaoLoteRps($protocolo)
@@ -126,8 +129,8 @@ class Tools extends BaseTools
      * Consulta NFSe emitidas em um periodo e por tomador (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ConsultarNfse
      *
-     * @param  \stdClass $filtro
-     *        
+     * @param \stdClass $filtro
+     *
      * @return string
      */
     public function consultarNfse($filtro)
@@ -144,7 +147,7 @@ class Tools extends BaseTools
             $content .= "<DataInicial>{$filtro->dataInicial}</DataInicial>";
             $content .= "<DataFinal>{$filtro->dataFinal}</DataFinal>";
             $content .= "</PeriodoEmissao>";
-        }    
+        }
         if (! empty($filtro->tomador)) {
             $content .= "<Tomador>";
             if (! empty($filtro->tomador->cnpj) || ! empty($filtro->tomador->cpf)) {
@@ -155,7 +158,7 @@ class Tools extends BaseTools
                     $content .= "<Cpf>{$filtro->tomador->cpf}</Cpf>";
                 }
                 $content .= "</CpfCnpj>";
-            }    
+            }
             if (! empty($filtro->tomador->InscricaoMunicipal)) {
                 $content .= "<InscricaoMunicipal>";
                 $content .= $filtro->tomador->InscricaoMunicipal;
@@ -194,7 +197,7 @@ class Tools extends BaseTools
      * @param string $numero
      * @param string $serie
      * @param integer $tipo
-     * 
+     *
      * @return string
      */
     public function consultarNfsePorRps($numero, $serie, $tipo)
@@ -218,9 +221,9 @@ class Tools extends BaseTools
      * Buscar Usuario (SINCRONO)
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=BuscarUsuario
      *
-     * @param  string $cnpj
-     * @param  string $im
-     * 
+     * @param string $cnpj
+     * @param string $im
+     *
      * @return string
      */
     public function buscarUsuario($cnpj, $im)
@@ -238,14 +241,14 @@ class Tools extends BaseTools
      * Envia LOTE de RPS para emissão de NFSe (ASSINCRONO) ou (SINCRONO) depende do enableSynchronous()
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=RecepcionarLoteRps
      *
-     * @param  array $arps Array contendo de 1 a 50 RPS::class
-     * @param  string $lote Número do lote de envio
-     * 
+     * @param array $arps Array contendo de 1 a 50 RPS::class
+     * @param string $lote Número do lote de envio
+     *
      * @return string
-     * 
+     *
      * @throws \Exception
      */
-    public function recepcionarLoteRps($arps, $lote)
+    public function recepcionarLoteRps(array $arps, string $lote)
     {
         $content = $listaRpsContent = '';
         $operation = 'RecepcionarLoteRps';
@@ -292,7 +295,7 @@ class Tools extends BaseTools
      *
      * @param string $metodo
      * @param string $xml
-     * 
+     *
      * @return string
      */
     public function recepcionarXml($metodo, $xml)
@@ -312,7 +315,7 @@ class Tools extends BaseTools
      * https://isscuritiba.curitiba.pr.gov.br/Iss.NfseWebService/nfsews.asmx?op=ValidarXml
      *
      * @param  string $xml
-     * 
+     *
      * @return string
      */
     public function validarXml($xml)

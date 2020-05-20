@@ -41,7 +41,7 @@ class Factory
     
     /**
      * Constructor
-     * 
+     *
      * @param \stdClass $std
      */
     public function __construct(stdClass $std)
@@ -56,7 +56,10 @@ class Factory
 
     /**
      * Add config
+     * 
      * @param \stdClass $config
+     * 
+     * @return void
      */
     public function addConfig($config)
     {
@@ -66,8 +69,8 @@ class Factory
     /**
      * Builder, converts sdtClass Rps in XML Rps
      * NOTE: without Prestador Tag
-     * 
-     * @return string RPS in XML string format
+     *
+     * @return string
      */
     public function render()
     {
@@ -126,9 +129,9 @@ class Factory
 
     /**
      * Includes Identificacao TAG in parent NODE
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      * @return void
      */
     protected function addIdentificacao(&$parent)
@@ -158,16 +161,16 @@ class Factory
     
     /**
      * Tag RpsSubstituido
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      * @return void
      */
     protected function addRpsSubstituido(&$parent)
     {
         if (empty($this->std->rpssubstituido)) {
             return;
-        } 
+        }
         $subs = $this->std->rpssubstituido;
         $node = $this->dom->createElement('RpsSubstituido');
         $this->dom->addChild(
@@ -193,9 +196,9 @@ class Factory
 
     /**
      * Includes Servico TAG in parent NODE
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      * @return void
      */
     protected function addServico(&$parent)
@@ -367,9 +370,9 @@ class Factory
 
     /**
      * Includes Prestador TAG in parent NODE
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      *  @return void
      */
     protected function addPrestador(&$parent)
@@ -404,9 +407,9 @@ class Factory
 
     /**
      * Includes Tomador TAG in parent NODE
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      * @return void
      */
     protected function addTomador(&$parent)
@@ -433,7 +436,7 @@ class Factory
                 false
             );
             $ide->appendChild($cpfcnpj);
-        }    
+        }
         $this->dom->addChild(
             $ide,
             "InscricaoMunicipal",
@@ -512,9 +515,9 @@ class Factory
 
     /**
      * Includes Intermediario TAG in parent NODE
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      * @return void
      */
     protected function addIntermediario(&$parent)
@@ -557,9 +560,9 @@ class Factory
 
     /**
      * Includes Construcao TAG in parent NODE
-     * 
+     *
      * @param \DOMElement $parent
-     * 
+     *
      * @return void
      */
     protected function addConstrucao(&$parent)
