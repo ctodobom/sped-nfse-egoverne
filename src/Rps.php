@@ -42,7 +42,7 @@ class Rps implements RpsInterface
 
     /**
      * Constructor
-     * 
+     *
      * @param stdClass $rps
      */
     public function __construct(stdClass $rps = null)
@@ -53,7 +53,7 @@ class Rps implements RpsInterface
     /**
      * Add config
      * @param stdClass $config
-     * 
+     *
      * @return void
      */
     public function config(\stdClass $config)
@@ -63,7 +63,7 @@ class Rps implements RpsInterface
 
     /**
      * Config existe
-     * 
+     *
      * @return bool
      */
     public function hasConfig()
@@ -73,9 +73,9 @@ class Rps implements RpsInterface
 
     /**
      * Convert Rps::class data in XML
-     * 
+     *
      * @param stdClass $rps
-     * 
+     *
      * @return string
      */
     public function render(stdClass $rps = null)
@@ -90,9 +90,9 @@ class Rps implements RpsInterface
 
     /**
      * Inicialize properties and valid input
-     * 
+     *
      * @param stdClass $rps
-     * 
+     *
      * @return void
      */
     private function init(stdClass $rps = null)
@@ -108,9 +108,9 @@ class Rps implements RpsInterface
 
     /**
      * Change properties names of stdClass to lower case
-     * 
+     *
      * @param \stdClass $data
-     * 
+     *
      * @return \stdClass
      */
     public static function propertiesToLower(stdClass $data)
@@ -129,11 +129,11 @@ class Rps implements RpsInterface
 
     /**
      * Validation json data from json Schema
-     * 
+     *
      * @param \stdClass $data
-     * 
+     *
      * @return boolean
-     * 
+     *
      * @throws \RuntimeException
      */
     protected function validInputData($data)

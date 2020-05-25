@@ -228,10 +228,6 @@ $jsonSchema = '
                             "required": false,
                             "type": ["number", "null"]
                         },
-                        "numerodeducao": {
-                            "required": false,
-                            "type": ["number", "null"]
-                        },
                         "valorpis": {
                             "required": false,
                             "type": ["number", "null"]

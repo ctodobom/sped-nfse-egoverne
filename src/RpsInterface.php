@@ -18,9 +18,9 @@ interface RpsInterface
 {
     /**
      * Convert Rps::class data in XML
-     * 
+     *
      * @param \stdClass $rps
-     * 
+     *
      * @return string
      */
     public function render(\stdClass $rps = null);

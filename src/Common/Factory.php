@@ -56,9 +56,9 @@ class Factory
 
     /**
      * Add config
-     * 
+     *
      * @param \stdClass $config
-     * 
+     *
      * @return void
      */
     public function addConfig($config)
